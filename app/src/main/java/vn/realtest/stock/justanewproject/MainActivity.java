@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import vn.realtest.stock.justanewproject.Utils.DataFetchingBackgroundJob;
+import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -40,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        DataFetchingBackgroundJob job = new DataFetchingBackgroundJob();
+        job.execute(UrlEndpoints.StockDetail.UPCOM);
     }
 
 }
