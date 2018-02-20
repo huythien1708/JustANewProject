@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.Utils.DataFetchingBackgroundJob;
 import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
@@ -44,8 +48,18 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        DataFetchingBackgroundJob job = new DataFetchingBackgroundJob();
-        job.execute(UrlEndpoints.StockDetail.UPCOM);
+        StockPresenter job = new StockPresenter(UrlEndpoints.StockDetail.HNX) {
+            @Override
+            public void OnStockModel(ArrayList<Stock> stock) {
+
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        };
+        job.execute();
     }
 
 }

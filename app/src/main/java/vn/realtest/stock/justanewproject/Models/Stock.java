@@ -12,30 +12,32 @@ public class Stock {
     private float Ceil;
     private float Floor;
     private float TotalValue;
-    private float TotalVolumn;
-    private Market Bids;
-    private Market Asks;
-    private Matched Matched;
-    private Price Price;
-    private Remain Remain;
-    private Foreign Foreign;
+    private int TotalVolume;
+    private float PriceBid1;
+    private float PriceBid2;
+    private float PriceBid3;
+    private int VolumeBid1;
+    private int VolumeBid2;
+    private int VolumeBid3;
+    private float PriceMatched;
+    private int VolumeMatched;
+    private float OffsetMatched;
+    private float PriceAsk1;
+    private float PriceAsk2;
+    private float PriceAsk3;
+    private int VolumeAsk1;
+    private int VolumeAsk2;
+    private int VolumeAsk3;
+    private float HighPrices;
+    private float AveragePrices;
+    private float LowPrices;
+    private int BidRemain;
+    private int AskRemain;
+    private int RoomForeign;
+    private int BoughtForeign;
+    private int SoldForeign;
 
     public Stock(){}
-
-    public Stock(String id, float reference, float ceil, float floor, float totalValue, float totalVolumn, Market bids, Market asks, Stock.Matched matched, Stock.Price price, Stock.Remain remain, Stock.Foreign foreign) {
-        ID = id;
-        Reference = reference;
-        Ceil = ceil;
-        Floor = floor;
-        TotalValue = totalValue;
-        TotalVolumn = totalVolumn;
-        Bids = bids;
-        Asks = asks;
-        Matched = matched;
-        Price = price;
-        Remain = remain;
-        Foreign = foreign;
-    }
 
     public String getID() {
         return ID;
@@ -77,87 +79,195 @@ public class Stock {
         TotalValue = totalValue;
     }
 
-    public float getTotalVolumn() {
-        return TotalVolumn;
+    public int getTotalVolume() {
+        return TotalVolume;
     }
 
-    public void setTotalVolumn(float totalVolumn) {
-        TotalVolumn = totalVolumn;
+    public void setTotalVolume(int totalVolume) {
+        TotalVolume = totalVolume;
     }
 
-    public Market getBids() {
-        return Bids;
+    public float getPriceBid1() {
+        return PriceBid1;
     }
 
-    public void setBids(Market bids) {
-        Bids = bids;
+    public void setPriceBid1(float priceBid1) {
+        PriceBid1 = priceBid1;
     }
 
-    public Market getAsks() {
-        return Asks;
+    public float getPriceBid2() {
+        return PriceBid2;
     }
 
-    public void setAsks(Market asks) {
-        Asks = asks;
+    public void setPriceBid2(float priceBid2) {
+        PriceBid2 = priceBid2;
     }
 
-    public Stock.Matched getMatched() {
-        return Matched;
+    public float getPriceBid3() {
+        return PriceBid3;
     }
 
-    public void setMatched(Stock.Matched matched) {
-        Matched = matched;
+    public void setPriceBid3(float priceBid3) {
+        PriceBid3 = priceBid3;
     }
 
-    public Stock.Price getPrice() {
-        return Price;
+    public int getVolumeBid1() {
+        return VolumeBid1;
     }
 
-    public void setPrice(Stock.Price price) {
-        Price = price;
+    public void setVolumeBid1(int volumeBid1) {
+        VolumeBid1 = volumeBid1;
     }
 
-    public Stock.Remain getRemain() {
-        return Remain;
+    public int getVolumeBid2() {
+        return VolumeBid2;
     }
 
-    public void setRemain(Stock.Remain remain) {
-        Remain = remain;
+    public void setVolumeBid2(int volumeBid2) {
+        VolumeBid2 = volumeBid2;
     }
 
-    public Stock.Foreign getForeign() {
-        return Foreign;
+    public int getVolumeBid3() {
+        return VolumeBid3;
     }
 
-    public void setForeign(Stock.Foreign foreign) {
-        Foreign = foreign;
+    public void setVolumeBid3(int volumeBid3) {
+        VolumeBid3 = volumeBid3;
     }
 
-    class Market {
-        private ArrayList<Float> Prices;
-        private ArrayList<Float> Volumns;
+    public float getPriceMatched() {
+        return PriceMatched;
     }
 
-    class Matched {
-        private float Price;
-        private float Volumn;
-        private float Offset;
+    public void setPriceMatched(float priceMatched) {
+        PriceMatched = priceMatched;
     }
 
-    class Price {
-        private float High;
-        private float Average;
-        private float Low;
+    public int getVolumeMatched() {
+        return VolumeMatched;
     }
 
-    class Remain {
-        private float Bid;
-        private float Ask;
+    public void setVolumeMatched(int volumeMatched) {
+        VolumeMatched = volumeMatched;
     }
 
-    class Foreign {
-        private float Bought;
-        private float Sold;
-        private float Room;
+    public float getOffsetMatched() {
+        return OffsetMatched;
+    }
+
+    public void setOffsetMatched(float offsetMatched) {
+        OffsetMatched = offsetMatched;
+    }
+
+    public float getPriceAsk1() {
+        return PriceAsk1;
+    }
+
+    public void setPriceAsk1(float priceAsk1) {
+        PriceAsk1 = priceAsk1;
+    }
+
+    public float getPriceAsk2() {
+        return PriceAsk2;
+    }
+
+    public void setPriceAsk2(float priceAsk2) {
+        PriceAsk2 = priceAsk2;
+    }
+
+    public float getPriceAsk3() {
+        return PriceAsk3;
+    }
+
+    public void setPriceAsk3(float priceAsk3) {
+        PriceAsk3 = priceAsk3;
+    }
+
+    public int getVolumeAsk1() {
+        return VolumeAsk1;
+    }
+
+    public void setVolumeAsk1(int volumeAsk1) {
+        VolumeAsk1 = volumeAsk1;
+    }
+
+    public int getVolumeAsk2() {
+        return VolumeAsk2;
+    }
+
+    public void setVolumeAsk2(int volumeAsk2) {
+        VolumeAsk2 = volumeAsk2;
+    }
+
+    public int getVolumeAsk3() {
+        return VolumeAsk3;
+    }
+
+    public void setVolumeAsk3(int volumeAsk3) {
+        VolumeAsk3 = volumeAsk3;
+    }
+
+    public float getHighPrices() {
+        return HighPrices;
+    }
+
+    public void setHighPrices(float highPrices) {
+        HighPrices = highPrices;
+    }
+
+    public float getAveragePrices() {
+        return AveragePrices;
+    }
+
+    public void setAveragePrices(float averagePrices) {
+        AveragePrices = averagePrices;
+    }
+
+    public float getLowPrices() {
+        return LowPrices;
+    }
+
+    public void setLowPrices(float lowPrices) {
+        LowPrices = lowPrices;
+    }
+
+    public int getBidRemain() {
+        return BidRemain;
+    }
+
+    public void setBidRemain(int bidRemain) {
+        BidRemain = bidRemain;
+    }
+
+    public int getAskRemain() {
+        return AskRemain;
+    }
+
+    public void setAskRemain(int askRemain) {
+        AskRemain = askRemain;
+    }
+
+    public int getRoomForeign() {
+        return RoomForeign;
+    }
+
+    public void setRoomForeign(int roomForeign) {
+        RoomForeign = roomForeign;
+    }
+
+    public int getBoughtForeign() {
+        return BoughtForeign;
+    }
+
+    public void setBoughtForeign(int boughtForeign) {
+        BoughtForeign = boughtForeign;
+    }
+
+    public int getSoldForeign() {
+        return SoldForeign;
+    }
+
+    public void setSoldForeign(int soldForeign) {
+        SoldForeign = soldForeign;
     }
 }
