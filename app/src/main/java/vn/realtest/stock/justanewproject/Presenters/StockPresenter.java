@@ -34,51 +34,65 @@ public abstract class StockPresenter extends DataFetchingBackgroundJob{
                     }
                     Log.d("data", columnValues.toString());
 
-                    try {
-                        stock.setID(columnValues.get(0));
-                        stock.setReference(Float.parseFloat(columnValues.get(4)));
-                        stock.setCeil(Float.parseFloat(columnValues.get(2)));
-                        stock.setFloor(Float.parseFloat(columnValues.get(3)));
-                        stock.setTotalVolume(Integer.parseInt(columnValues.get(15).replace(",", "")));
-                        //                    stock.setTotalValue(Float.parseFloat(columnValues.get(15)));
+                    stock.setID(columnValues.get(0));
+                    stock.setReference(parseFloat(columnValues.get(4)));
+                    stock.setCeil(parseFloat(columnValues.get(2)));
+                    stock.setFloor(parseFloat(columnValues.get(3)));
+                    stock.setTotalVolume(parseInt(columnValues.get(15).replace(",", "")));
+                    //                    stock.setTotalValue(parseFloat(columnValues.get(15)));
 
-                        stock.setPriceBid3(Float.parseFloat(columnValues.get(6)));
-                        stock.setVolumeBid3(Integer.parseInt(columnValues.get(7).replace(",", "")));
-                        stock.setPriceBid2(Float.parseFloat(columnValues.get(8)));
-                        stock.setVolumeBid2(Integer.parseInt(columnValues.get(9).replace(",", "")));
-                        stock.setPriceBid1(Float.parseFloat(columnValues.get(10)));
-                        stock.setVolumeBid1(Integer.parseInt(columnValues.get(11).replace(",", "")));
+                    stock.setPriceBid3(parseFloat(columnValues.get(6)));
+                    stock.setVolumeBid3(parseInt(columnValues.get(7).replace(",", "")));
+                    stock.setPriceBid2(parseFloat(columnValues.get(8)));
+                    stock.setVolumeBid2(parseInt(columnValues.get(9).replace(",", "")));
+                    stock.setPriceBid1(parseFloat(columnValues.get(10)));
+                    stock.setVolumeBid1(parseInt(columnValues.get(11).replace(",", "")));
 
-                        stock.setPriceMatched(Float.parseFloat(columnValues.get(12)));
-                        stock.setVolumeMatched(Integer.parseInt(columnValues.get(14).replace(",", "")));
-                        stock.setOffsetMatched(Float.parseFloat(columnValues.get(13)));
+                    stock.setPriceMatched(parseFloat(columnValues.get(12)));
+                    stock.setVolumeMatched(parseInt(columnValues.get(14).replace(",", "")));
+                    stock.setOffsetMatched(parseFloat(columnValues.get(13)));
 
-                        stock.setPriceAsk1(Float.parseFloat(columnValues.get(16)));
-                        stock.setVolumeAsk1(Integer.parseInt(columnValues.get(17).replace(",", "")));
-                        stock.setPriceAsk2(Float.parseFloat(columnValues.get(18)));
-                        stock.setVolumeAsk2(Integer.parseInt(columnValues.get(19).replace(",", "")));
-                        stock.setPriceAsk3(Float.parseFloat(columnValues.get(20)));
-                        stock.setVolumeAsk3(Integer.parseInt(columnValues.get(21).replace(",", "")));
+                    stock.setPriceAsk1(parseFloat(columnValues.get(16)));
+                    stock.setVolumeAsk1(parseInt(columnValues.get(17).replace(",", "")));
+                    stock.setPriceAsk2(parseFloat(columnValues.get(18)));
+                    stock.setVolumeAsk2(parseInt(columnValues.get(19).replace(",", "")));
+                    stock.setPriceAsk3(parseFloat(columnValues.get(20)));
+                    stock.setVolumeAsk3(parseInt(columnValues.get(21).replace(",", "")));
 
-                        stock.setHighPrices(Float.parseFloat(columnValues.get(25)));
-                        stock.setAveragePrices(Float.parseFloat(columnValues.get(23)));
-                        stock.setLowPrices(Float.parseFloat(columnValues.get(26)));
+                    stock.setHighPrices(parseFloat(columnValues.get(25)));
+                    stock.setAveragePrices(parseFloat(columnValues.get(23)));
+                    stock.setLowPrices(parseFloat(columnValues.get(26)));
 
-                        //                    stock.setBidRemain();
-                        //                    stock.setAskRemain();
+                    //                    stock.setBidRemain();
+                    //                    stock.setAskRemain();
 
-                        stock.setBoughtForeign(Integer.parseInt(columnValues.get(27).replace(",", "")));
-                        stock.setSoldForeign(Integer.parseInt(columnValues.get(28).replace(",", "")));
-                        stock.setRoomForeign(Integer.parseInt(columnValues.get(29).replace(",", "")));
-                    }
-                    catch (NumberFormatException ex) {
-                        Log.e("error", ex.toString());
-                    }
+                    stock.setBoughtForeign(parseInt(columnValues.get(27).replace(",", "")));
+                    stock.setSoldForeign(parseInt(columnValues.get(28).replace(",", "")));
+                    stock.setRoomForeign(parseInt(columnValues.get(29).replace(",", "")));
+                    
                 }
                 stocks.add(stock);
             }
         }
         OnStockModel(stocks);
+    }
+    
+    private int parseInt(String string) {
+        try {
+            return Integer.parseInt(string);
+        } catch (NumberFormatException ex) {
+            Log.e("error", ex.toString());
+            return 0;
+        }
+    }
+
+    private float parseFloat(String string) {
+        try {
+            return Float.parseFloat(string);
+        } catch (NumberFormatException ex) {
+            Log.e("error", ex.toString());
+            return 0;
+        }
     }
 
     public abstract void OnStockModel(ArrayList<Stock> stock);
