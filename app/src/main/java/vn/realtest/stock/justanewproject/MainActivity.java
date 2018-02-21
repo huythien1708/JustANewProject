@@ -4,14 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import vn.realtest.stock.justanewproject.Models.Company;
 import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Presenters.CompanyPresenter;
 import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
-import vn.realtest.stock.justanewproject.Utils.DataFetchingBackgroundJob;
 import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,7 +61,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+
+        CompanyPresenter companyPresenter = new CompanyPresenter(UrlEndpoints.CompanyInfo.HNX) {
+            @Override
+            public void OnCompanyModel(ArrayList<Company> companies) {
+                for (Company company : companies) {
+                    Log.d("data", company.getID() + ": " + company.getName());
+                }
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        };
+
         job.execute();
+        companyPresenter.execute();
     }
 
 }

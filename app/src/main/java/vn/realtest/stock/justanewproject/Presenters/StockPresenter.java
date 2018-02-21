@@ -32,7 +32,6 @@ public abstract class StockPresenter extends DataFetchingBackgroundJob{
                     for (String column : columns) {
                         columnValues.add(column.split(":")[0]);
                     }
-                    Log.d("data", columnValues.toString());
 
                     stock.setID(columnValues.get(0));
                     stock.setReference(parseFloat(columnValues.get(4)));
@@ -95,6 +94,6 @@ public abstract class StockPresenter extends DataFetchingBackgroundJob{
         }
     }
 
-    public abstract void OnStockModel(ArrayList<Stock> stock);
+    public abstract void OnStockModel(ArrayList<Stock> stocks);
 
 }
