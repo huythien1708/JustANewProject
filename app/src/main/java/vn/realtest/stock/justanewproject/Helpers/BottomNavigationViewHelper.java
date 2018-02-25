@@ -1,4 +1,4 @@
-package vn.realtest.stock.justanewproject;
+package vn.realtest.stock.justanewproject.Helpers;
 
 /**
  * Created by Admin on 1/20/2018.
