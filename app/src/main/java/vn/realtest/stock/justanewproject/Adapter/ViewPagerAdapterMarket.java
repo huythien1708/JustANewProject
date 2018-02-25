@@ -1,5 +1,6 @@
 package vn.realtest.stock.justanewproject.Adapter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,16 +9,20 @@ import vn.realtest.stock.justanewproject.Fragments.FavoriteFragment;
 import vn.realtest.stock.justanewproject.Fragments.HnxFragment;
 import vn.realtest.stock.justanewproject.Fragments.HoseFragment;
 import vn.realtest.stock.justanewproject.Fragments.UpcomFragment;
+import vn.realtest.stock.justanewproject.R;
 
 /**
  * Created by Admin on 1/21/2018.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter{
+public class ViewPagerAdapterMarket extends FragmentPagerAdapter{
     private static int NUM_ITEMS = 4;
+    private String title_favorite;
+    Context context;
 
-    public ViewPagerAdapter(FragmentManager fragmentManager) {
+    public ViewPagerAdapterMarket(FragmentManager fragmentManager, Context mContext) {
         super(fragmentManager);
+        context = mContext;
     }
 
     // Returns total number of pages
@@ -47,6 +52,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position) {
        switch (position){
            case 0:
+
                return "Favorite";
            case 1:
                return "HNX";

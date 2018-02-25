@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">JustANewProject</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Stockbie</string>
+    <string name="title_market">Thị trường</string>
+    <string name="title_trade">Giao dịch</string>
+    <string name="title_fund">Quĩ</string>
+    <string name="title_account">Tài khoản</string>
+    <string name="tittle_favorite">Favorite</string>
+    <string name="tittle_hnx">HNX</string>
+    <string name="tittle_hose">HOSE</string>
+    <string name="tittle_upcom">UPCOM</string>
+    <string name="total_balance">Tổng tài khoản(VNĐ)</string>
+    <string name="holding_stock">Cổ phiếu nắm giữ</string>
 </resources>
