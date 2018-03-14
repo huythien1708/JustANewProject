@@ -1,8 +1,4 @@
 package vn.realtest.stock.justanewproject.Data;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Paul on 3/12/2018.
  */

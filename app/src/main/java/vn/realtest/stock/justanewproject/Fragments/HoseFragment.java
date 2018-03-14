@@ -2,10 +2,17 @@ package vn.realtest.stock.justanewproject.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
+import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.R;
 
 /**
@@ -13,6 +20,12 @@ import vn.realtest.stock.justanewproject.R;
  */
 
 public class HoseFragment extends Fragment {
+    View view;
+    List<MarketStock> marketStockList;
+    RecyclerView rv_hose;
+    MarketAdapter mAdapter;
+
+
     public static HoseFragment newInstance() {
         HoseFragment fragment = new HoseFragment();
         return fragment;
@@ -26,6 +39,28 @@ public class HoseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_hose, container, false);
+        view = inflater.inflate(R.layout.fragment_hose, container, false);
+        marketStockList = new ArrayList<>();
+        rv_hose = (RecyclerView) view.findViewById(R.id.rv_hose);
+        mAdapter = new MarketAdapter(marketStockList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        rv_hose.setLayoutManager(mLayoutManager);
+        rv_hose.setAdapter(mAdapter);
+        prepareStockData();
+        return view;
+    }
+
+    private void prepareStockData() {
+
+        MarketStock marketStock = new MarketStock("PVD", "31.5", "-1.36%", "Vol: 3000");
+        marketStockList.add(marketStock);
+
+        marketStock = new MarketStock("MBB","20.5","+5.6%", "Vol: 5000");
+        marketStockList.add(marketStock);
+
+        marketStock = new MarketStock("BID","20.5","+5.6%", "Vol: 5000");
+        marketStockList.add(marketStock);
+
+        mAdapter.notifyDataSetChanged();
     }
 }

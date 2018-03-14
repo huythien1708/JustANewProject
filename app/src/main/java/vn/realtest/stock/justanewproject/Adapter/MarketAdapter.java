@@ -1,8 +1,78 @@
 package vn.realtest.stock.justanewproject.Adapter;
 
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.R;
+
 /**
  * Created by Paul on 3/13/2018.
  */
 
-public class MarketAdapter {
+public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStockViewHolder>{
+    List<MarketStock> marketStockList;
+    public static class MarketStockViewHolder extends RecyclerView.ViewHolder {
+        CardView cv_market;
+        TextView stock_name, stock_value, stock_change, stock_vol;
+
+        public MarketStockViewHolder(View itemView) {
+            super(itemView);
+            cv_market = (CardView) itemView.findViewById(R.id.cv_market);
+            stock_name = (TextView) itemView.findViewById(R.id.tv_stock_name_market);
+            stock_value = (TextView) itemView.findViewById(R.id.tv_stock_value);
+            stock_change = (TextView) itemView.findViewById(R.id.tv_stock_change);
+            stock_vol = (TextView) itemView.findViewById(R.id.tv_stock_vol);
+
+        }
+    }
+
+    public MarketAdapter(List<MarketStock> marketStockList){
+        this.marketStockList = marketStockList;
+    }
+
+    @Override
+    public MarketStockViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.market_stock_item, viewGroup, false );
+        return new MarketStockViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(MarketStockViewHolder holder, int position) {
+        MarketStock marketStock = marketStockList.get(position);
+        holder.stock_name.setText(marketStock.getStock_name());
+        holder.stock_value.setText(marketStock.getStock_value());
+        holder.stock_change.setText(marketStock.getStock_change_rate());
+        holder.stock_vol.setText(marketStock.getStock_vol());
+        Log.d("abc", "String trả về: " + marketStock.getStock_change_rate());
+        if(check_rate(marketStock.getStock_change_rate())){
+            holder.stock_change.setBackgroundColor(Color.GREEN);
+        } else if (!check_rate(marketStock.getStock_change_rate())){
+            holder.stock_change.setBackgroundColor(Color.RED);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        Log.d("abc", "Size: "+ marketStockList.size());
+        return marketStockList.size();
+    }
+
+    public boolean check_rate(String rate){
+        //rate tăng thì trả về true
+        if(rate.charAt(0) == '+'){
+            return true;
+        }
+            return false;
+
+    }
+
 }

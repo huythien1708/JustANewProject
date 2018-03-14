@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +21,7 @@ import vn.realtest.stock.justanewproject.R;
 
 public class MarketFragment extends Fragment {
     Context mContext;
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "ResourceType"})
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,7 +36,13 @@ public class MarketFragment extends Fragment {
                 tabLayout.setupWithViewPager(pager, true);
             }
         });
-        tabLayout.setTabTextColors(ColorStateList.valueOf(getContext().getColor(R.color.pager_view_text)));
+
+        //set text color trên tab indicator của pager view
+        if(Build.VERSION.SDK_INT >=23){
+            tabLayout.setTabTextColors(ColorStateList.valueOf(getContext().getColor(R.color.pager_view_text)));
+        } else {
+            tabLayout.setTabTextColors(Color.parseColor(getResources().getString(R.color.pager_view_text)),Color.parseColor(getResources().getString(R.color.pager_view_text)) );
+        }
         return rootView;
     }
 
