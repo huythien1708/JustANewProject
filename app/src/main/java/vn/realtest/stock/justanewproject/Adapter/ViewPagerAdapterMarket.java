@@ -52,7 +52,6 @@ public class ViewPagerAdapterMarket extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position) {
        switch (position){
            case 0:
-
                return "Favorite";
            case 1:
                return "HNX";

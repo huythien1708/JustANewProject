@@ -4,10 +4,13 @@
     <string name="title_trade">Giao dịch</string>
     <string name="title_fund">Quĩ</string>
     <string name="title_account">Tài khoản</string>
-    <string name="tittle_favorite">Favorite</string>
+    <string name="tittle_favorite">Yêu thích</string>
     <string name="tittle_hnx">HNX</string>
     <string name="tittle_hose">HOSE</string>
     <string name="tittle_upcom">UPCOM</string>
     <string name="total_balance">Tổng tài khoản(VNĐ)</string>
     <string name="holding_stock">Cổ phiếu nắm giữ</string>
+    <string name="stock_name">Tên cổ phiếu</string>
+    <string name="stock_value">Giá cổ phiếu</string>
+    <string name="stock_change_rate">Thay đổi</string>
 </resources>
