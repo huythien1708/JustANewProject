@@ -1,4 +1,5 @@
 package vn.realtest.stock.justanewproject.Data;
+
 /**
  * Created by Paul on 3/12/2018.
  */
@@ -41,10 +42,7 @@ public class FundStock {
         this.stock_can_trade = stock_can_trade;
     }
 
-
-
-
-    public FundStock(String name, String amount, String date, String can_trade){
+    public FundStock(String name, String amount, String date, String can_trade) {
         this.stock_name = name;
         this.stock_amount = amount;
         this.stock_buy_date = date;

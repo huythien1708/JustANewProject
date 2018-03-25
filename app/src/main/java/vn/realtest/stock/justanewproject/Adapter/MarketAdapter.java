@@ -1,6 +1,10 @@
 package vn.realtest.stock.justanewproject.Adapter;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,6 +24,7 @@ import vn.realtest.stock.justanewproject.R;
 
 public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStockViewHolder>{
     List<MarketStock> marketStockList;
+    int increase_value, decrease_value;
     public static class MarketStockViewHolder extends RecyclerView.ViewHolder {
         CardView cv_market;
         TextView stock_name, stock_value, stock_change, stock_vol;
@@ -42,6 +47,8 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStoc
     @Override
     public MarketStockViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.market_stock_item, viewGroup, false );
+        increase_value = ContextCompat.getColor(v.getContext(), R.color.increase_value);
+        decrease_value = ContextCompat.getColor(v.getContext(), R.color.decrease_value);
         return new MarketStockViewHolder(v);
     }
 
@@ -52,17 +59,15 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStoc
         holder.stock_value.setText(marketStock.getStock_value());
         holder.stock_change.setText(marketStock.getStock_change_rate());
         holder.stock_vol.setText(marketStock.getStock_vol());
-        Log.d("abc", "String trả về: " + marketStock.getStock_change_rate());
         if(check_rate(marketStock.getStock_change_rate())){
-            holder.stock_change.setBackgroundColor(Color.GREEN);
+            holder.stock_change.setBackgroundColor(increase_value);
         } else if (!check_rate(marketStock.getStock_change_rate())){
-            holder.stock_change.setBackgroundColor(Color.RED);
+            holder.stock_change.setBackgroundColor(decrease_value);
         }
     }
 
     @Override
     public int getItemCount() {
-        Log.d("abc", "Size: "+ marketStockList.size());
         return marketStockList.size();
     }
 
@@ -71,7 +76,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStoc
         if(rate.charAt(0) == '+'){
             return true;
         }
-            return false;
+        return false;
 
     }
 
