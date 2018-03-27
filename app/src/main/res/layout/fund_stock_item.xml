@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cv_fund"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cv_fund"
         app:cardBackgroundColor="@color/colorPrimary">
 
         <LinearLayout
@@ -17,59 +17,57 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tv_stock_name"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_stock_name"
-                android:text="GMD"
-                android:textStyle="bold"
-                android:textColor="@color/text_color"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
+                android:text="GMD"
+                android:textColor="@color/text_color"
                 android:textSize="18sp"
-                />
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_stock_amount"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_stock_amount"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/person_photo"
                 android:text="300000"
                 android:textColor="@color/text_color"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_alignParentTop="true"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/tv_stock_buy_date"
-                android:text="12/3/18"
-                android:textColor="@color/text_color"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/person_name"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_stock_buy_date"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/person_name"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/person_photo"
+                android:text="12/3/18"
+                android:textColor="@color/text_color"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_stock_can_trade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/person_name"
                 android:layout_marginLeft="16dp"
-                android:id="@+id/tv_stock_can_trade"
+                android:layout_toRightOf="@+id/person_photo"
                 android:text="Chưa bán được"
                 android:textColor="@color/text_color"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/person_name"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ffffff"/>
+        android:background="#ffffff" />
 </LinearLayout>

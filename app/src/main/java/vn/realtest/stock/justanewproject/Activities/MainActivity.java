@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import vn.realtest.stock.justanewproject.Fragments.AccountFragment;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
+import vn.realtest.stock.justanewproject.Fragments.StatisticFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
 import vn.realtest.stock.justanewproject.R;
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_market:
                     MarketFragment market = new MarketFragment();
                     transaction.replace(R.id.content, market);
+                    mTitleTv.setText(R.string.title_market);
                     break;
                 case R.id.navigation_trade:
                     TradeFragment trade = new TradeFragment();
@@ -41,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.content, fund);
                     mTitleTv.setText(R.string.title_fund);
                     break;
-                case R.id.navigation_account:
-                    AccountFragment account = new AccountFragment();
-                    transaction.replace(R.id.content, account);
-                    mTitleTv.setText(R.string.title_account);
+                case R.id.navigation_statistic:
+                    StatisticFragment statistic = new StatisticFragment();
+                    transaction.replace(R.id.content, statistic);
+                    mTitleTv.setText(R.string.title_statistic);
                     break;
             }
             transaction.commit();

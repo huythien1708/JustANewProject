@@ -15,9 +15,10 @@
         android:id="@+id/navigation_fund"
         android:icon="@drawable/fund"
         android:title="@string/title_fund" />
+
     <item
-        android:id="@+id/navigation_account"
-        android:icon="@drawable/account"
-        android:title="@string/title_account" />
+        android:id="@+id/navigation_statistic"
+        android:icon="@drawable/statistics"
+        android:title="@string/title_statistic" />
 
 </menu>

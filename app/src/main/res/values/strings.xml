@@ -3,7 +3,7 @@
     <string name="title_market">Thị trường</string>
     <string name="title_trade">Giao dịch</string>
     <string name="title_fund">Quĩ</string>
-    <string name="title_account">Tài khoản</string>
+    <string name="title_statistic">Thống kê</string>
     <string name="tittle_favorite">Yêu thích</string>
     <string name="tittle_hnx">HNX</string>
     <string name="tittle_hose">HOSE</string>
@@ -13,4 +13,27 @@
     <string name="stock_name">Tên cổ phiếu</string>
     <string name="stock_value">Giá cổ phiếu</string>
     <string name="stock_change_rate">Thay đổi</string>
+    <string name="order">Đặt lệnh</string>
+    <string name="buy_price">Giá mua</string>
+    <string name="sell_price">Giá bán</string>
+    <string name="action_buy">Mua</string>
+    <string name="action_sell">Bán</string>
+    <string name="price">Giá</string>
+    <string name="stock_amount">Khối lượng</string>
+    <string name="total_trade">Tổng tiền</string>
+    <string name="price_1">Giá 1</string>
+    <string name="price_2">Giá 2</string>
+    <string name="price_3">Giá 3</string>
+    <string name="amount_1">Khối lượng 1</string>
+    <string name="amount_2">Khối lượng 2</string>
+    <string name="amount_3">Khối lượng 3</string>
+    <string name="transtraction">Giao dịch</string>
+    <string name="history">Lịch sử</string>
+    <string name="open_orders">Lệnh chờ khớp</string>
+    <string name="history_trade">Lịch sử giao dịch</string>
+
+    <string-array name="buy_sell">
+        <item>Mua</item>
+        <item>Bán</item>
+    </string-array>
 </resources>

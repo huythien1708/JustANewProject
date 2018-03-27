@@ -3,6 +3,7 @@
     <color name="colorPrimary">#222B3D</color>
     <color name="colorPrimaryDark">#2E394E</color>
     <color name="colorAccent">#b2dfdb</color>
+    <color name="colorBlack">#000</color>
 
     <color name="colorBottomBar"> #222B3D</color>
     <color name="tab_enable">#fff</color>
@@ -16,4 +17,6 @@
     <color name="text_color">#fff</color>
     <color name="decrease_value">#F71976</color>
     <color name="increase_value">#3ED646</color>
+
+    <color name="trade_edittext">#502E394E</color>
 </resources>
