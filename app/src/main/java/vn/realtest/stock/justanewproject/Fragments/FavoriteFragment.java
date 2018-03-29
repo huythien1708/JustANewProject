@@ -1,9 +1,12 @@
 package vn.realtest.stock.justanewproject.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,10 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 /**
  * Created by Admin on 1/21/2018.
@@ -50,16 +56,64 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void prepareStockData() {
+        Log.d("test", "Start fetching: " + System.currentTimeMillis() + "");
+        marketStockList.clear();
+        new StockPresenter(UrlEndpoints.StockDetail.HNX) {
 
-        MarketStock marketStock = new MarketStock("GMD", "31.5", "-1.36%", "Vol: 3000");
-        marketStockList.add(marketStock);
+            @Override
+            public void OnStockModel(ArrayList<Stock> stocks) {
+                parseStockData(marketStockList, stocks);
+                Log.d("data", marketStockList.size() + "");
+//                mAdapter.notifyDataSetChanged();
+            }
 
-        marketStock = new MarketStock("PVS","20.5","+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
+            @Override
+            public void OnProgressUpdate(Void... values) {
 
-        marketStock = new MarketStock("PVD","20.5","+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        mAdapter.notifyDataSetChanged();
+        new StockPresenter(UrlEndpoints.StockDetail.HOSE) {
+
+            @Override
+            public void OnStockModel(ArrayList<Stock> stocks) {
+                parseStockData(marketStockList, stocks);
+                Log.d("data", marketStockList.size() + "");
+//                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        new StockPresenter(UrlEndpoints.StockDetail.UPCOM) {
+
+            @Override
+            public void OnStockModel(ArrayList<Stock> stocks) {
+                parseStockData(marketStockList, stocks);
+                Log.d("data", marketStockList.size() + "");
+//                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void parseStockData(List<MarketStock> marketStockList, ArrayList<Stock> stocks) {
+        Log.d("test", "Start parsing: " + System.currentTimeMillis() + "");
+        for(Stock stock : stocks) {
+            marketStockList.add(new MarketStock(
+                    stock.getID() + "",
+                    stock.getTotalValue() + "",
+                    stock.getOffsetMatched() + "%",
+                    stock.getTotalVolume() + "")
+            );
+        }
+        Log.d("test", "End parsing: " + System.currentTimeMillis() + "");
     }
 }
