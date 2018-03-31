@@ -56,23 +56,23 @@ public class FavoriteFragment extends Fragment {
         rv_favorite.setLayoutManager(mLayoutManager);
         rv_favorite.setAdapter(mAdapter);
 
-        if (GlobalData.HNX != null) {
-            parseStockData(marketStockList, GlobalData.HNX);
-            mAdapter.notifyDataSetChanged();
-        }
-
-        GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
-            @Override
-            public void OnStockDataParsed(ArrayList<Stock> stocks) {
-                parseStockData(marketStockList, stocks);
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public StockType GetStockType() {
-                return StockType.HNX;
-            }
-        });
+//        if (GlobalData.HNX != null) {
+//            parseStockData(marketStockList, GlobalData.HNX);
+//            mAdapter.notifyDataSetChanged();
+//        }
+//
+//        GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
+//            @Override
+//            public void OnStockDataParsed(ArrayList<Stock> stocks) {
+//                parseStockData(marketStockList, stocks);
+//                mAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public StockType GetStockType() {
+//                return StockType.HNX;
+//            }
+//        });
         return view;
     }
 

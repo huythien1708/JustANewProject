@@ -59,9 +59,9 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStoc
         holder.stock_value.setText(marketStock.getStock_value());
         holder.stock_change.setText(marketStock.getStock_change_rate());
         holder.stock_vol.setText(marketStock.getStock_vol());
-        if(check_rate(marketStock.getStock_change_rate())){
+        if(!check_rate(marketStock.getStock_change_rate())){
             holder.stock_change.setBackgroundColor(increase_value);
-        } else if (!check_rate(marketStock.getStock_change_rate())){
+        } else if (check_rate(marketStock.getStock_change_rate())){
             holder.stock_change.setBackgroundColor(decrease_value);
         }
     }
@@ -73,7 +73,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStoc
 
     public boolean check_rate(String rate){
         //rate tăng thì trả về true
-        if(rate.charAt(0) == '+'){
+        if(rate.charAt(0) == '-'){
             return true;
         }
         return false;
