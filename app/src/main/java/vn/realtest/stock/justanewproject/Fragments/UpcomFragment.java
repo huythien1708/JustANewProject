@@ -14,7 +14,11 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Listeners.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Models.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
 import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
@@ -49,32 +53,41 @@ public class UpcomFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_upcom.setLayoutManager(mLayoutManager);
         rv_upcom.setAdapter(mAdapter);
-        prepareStockData();
-        return view;
-    }
 
-    private void prepareStockData() {
-        new StockPresenter(UrlEndpoints.StockDetail.HNX) {
+        if (GlobalData.UPCOM != null) {
+            parseStockData(marketStockList, GlobalData.UPCOM);
+            mAdapter.notifyDataSetChanged();
+        }
 
+        GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
-            public void OnStockModel(ArrayList<Stock> stocks) {
-                marketStockList.clear();
-                for(Stock stock : stocks) {
-                    marketStockList.add(new MarketStock(
-                            stock.getID() + "",
-                            stock.getTotalValue() + "",
-                            stock.getOffsetMatched() + "%",
-                            stock.getTotalVolume() + "")
-                    );
-                }
+            public void OnStockDataParsed(ArrayList<Stock> stocks) {
+                parseStockData(marketStockList, stocks);
                 mAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void OnProgressUpdate(Void... values) {
-
+            public StockType GetStockType() {
+                return StockType.UPCOM;
             }
-        }.execute();
+        });
+
+        return view;
+    }
+
+    private void parseStockData(List<MarketStock> marketStockList, ArrayList<Stock> stocks) {
+        Log.d("test", "Start parsing: " + System.currentTimeMillis() + "");
+        if (stocks != null && !stocks.isEmpty()) {
+            for(Stock stock : stocks) {
+                marketStockList.add(new MarketStock(
+                        stock.getID() + "",
+                        stock.getTotalValue() + "",
+                        stock.getOffsetMatched() + "%",
+                        stock.getTotalVolume() + "")
+                );
+            }
+        }
+        Log.d("test", "End parsing: " + System.currentTimeMillis() + "");
     }
 }
 

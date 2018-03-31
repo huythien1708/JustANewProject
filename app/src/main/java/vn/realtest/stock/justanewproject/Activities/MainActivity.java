@@ -1,22 +1,33 @@
 package vn.realtest.stock.justanewproject.Activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.StatisticFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
+import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Models.GlobalData;
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 public class MainActivity extends AppCompatActivity {
     TextView mTitleTv;
@@ -83,5 +94,52 @@ public class MainActivity extends AppCompatActivity {
         MarketFragment market = new MarketFragment();
         transaction.replace(R.id.content, market);
         transaction.commit();
+
+        prepareStockData();
+    }
+
+    private void prepareStockData() {
+        Log.d("test", "Start fetching: " + System.currentTimeMillis() + "");
+        new StockPresenter(UrlEndpoints.StockDetail.HNX) {
+
+            @Override
+            public void OnStockModel(ArrayList<Stock> stocks) {
+                GlobalData.HNX = stocks;
+                GlobalDataLoadedListener.onGlobalDataLoaded();
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        new StockPresenter(UrlEndpoints.StockDetail.HOSE) {
+
+            @Override
+            public void OnStockModel(ArrayList<Stock> stocks) {
+                GlobalData.HOSE = stocks;
+                GlobalDataLoadedListener.onGlobalDataLoaded();
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        new StockPresenter(UrlEndpoints.StockDetail.UPCOM) {
+
+            @Override
+            public void OnStockModel(ArrayList<Stock> stocks) {
+                GlobalData.UPCOM = stocks;
+                GlobalDataLoadedListener.onGlobalDataLoaded();
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

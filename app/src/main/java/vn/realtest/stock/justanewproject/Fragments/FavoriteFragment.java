@@ -16,7 +16,11 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Listeners.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Models.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
 import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
@@ -51,68 +55,38 @@ public class FavoriteFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_favorite.setLayoutManager(mLayoutManager);
         rv_favorite.setAdapter(mAdapter);
-        prepareStockData();
+
+        if (GlobalData.HNX != null) {
+            parseStockData(marketStockList, GlobalData.HNX);
+            mAdapter.notifyDataSetChanged();
+        }
+
+        GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
+            @Override
+            public void OnStockDataParsed(ArrayList<Stock> stocks) {
+                parseStockData(marketStockList, stocks);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public StockType GetStockType() {
+                return StockType.HNX;
+            }
+        });
         return view;
-    }
-
-    private void prepareStockData() {
-        Log.d("test", "Start fetching: " + System.currentTimeMillis() + "");
-        marketStockList.clear();
-        new StockPresenter(UrlEndpoints.StockDetail.HNX) {
-
-            @Override
-            public void OnStockModel(ArrayList<Stock> stocks) {
-                parseStockData(marketStockList, stocks);
-                Log.d("data", marketStockList.size() + "");
-//                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void OnProgressUpdate(Void... values) {
-
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        new StockPresenter(UrlEndpoints.StockDetail.HOSE) {
-
-            @Override
-            public void OnStockModel(ArrayList<Stock> stocks) {
-                parseStockData(marketStockList, stocks);
-                Log.d("data", marketStockList.size() + "");
-//                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void OnProgressUpdate(Void... values) {
-
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        new StockPresenter(UrlEndpoints.StockDetail.UPCOM) {
-
-            @Override
-            public void OnStockModel(ArrayList<Stock> stocks) {
-                parseStockData(marketStockList, stocks);
-                Log.d("data", marketStockList.size() + "");
-//                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void OnProgressUpdate(Void... values) {
-
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void parseStockData(List<MarketStock> marketStockList, ArrayList<Stock> stocks) {
         Log.d("test", "Start parsing: " + System.currentTimeMillis() + "");
-        for(Stock stock : stocks) {
-            marketStockList.add(new MarketStock(
-                    stock.getID() + "",
-                    stock.getTotalValue() + "",
-                    stock.getOffsetMatched() + "%",
-                    stock.getTotalVolume() + "")
-            );
+        if (stocks != null && !stocks.isEmpty()) {
+            for(Stock stock : stocks) {
+                marketStockList.add(new MarketStock(
+                        stock.getID() + "",
+                        stock.getTotalValue() + "",
+                        stock.getOffsetMatched() + "%",
+                        stock.getTotalVolume() + "")
+                );
+            }
         }
         Log.d("test", "End parsing: " + System.currentTimeMillis() + "");
     }
