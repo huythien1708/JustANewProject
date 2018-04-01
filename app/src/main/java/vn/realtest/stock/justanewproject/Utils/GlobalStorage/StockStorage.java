@@ -13,7 +13,7 @@ public class StockStorage {
 
     private static ArrayList<OnDataLoadedListener> onDataLoadedListeners = new ArrayList<>();
 
-    public static void addOnDataLoadedListener(OnDataLoadedListener onDataLoadedListener) {
+    public static void AddOnDataLoadedListener(OnDataLoadedListener onDataLoadedListener) {
         if (onDataLoadedListener != null) {
             onDataLoadedListeners.add(onDataLoadedListener);
         }

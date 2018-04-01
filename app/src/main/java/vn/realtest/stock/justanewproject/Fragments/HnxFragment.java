@@ -56,9 +56,10 @@ public class HnxFragment extends Fragment {
         parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
         mAdapter.notifyDataSetChanged();
 
-        StockStorage.addOnDataLoadedListener(new OnDataLoadedListener() {
+        StockStorage.AddOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
             public void OnStockDataParsed() {
+                Log.d("test", "onGlobalDataChanged");
                 parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
                 mAdapter.notifyDataSetChanged();
             }

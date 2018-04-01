@@ -82,7 +82,7 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
 
         getData();
 
-        StockStorage.addOnDataLoadedListener(new OnDataLoadedListener() {
+        StockStorage.AddOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
             public void OnStockDataParsed() {
                 getData();

@@ -55,7 +55,7 @@ public class UpcomFragment extends Fragment {
         parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
         mAdapter.notifyDataSetChanged();
 
-        StockStorage.addOnDataLoadedListener(new OnDataLoadedListener() {
+        StockStorage.AddOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
             public void OnStockDataParsed() {
                 parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));

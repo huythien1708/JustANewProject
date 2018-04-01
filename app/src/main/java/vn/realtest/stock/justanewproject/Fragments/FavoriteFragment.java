@@ -53,7 +53,7 @@ public class FavoriteFragment extends Fragment {
 //            mAdapter.notifyDataSetChanged();
 //        }
 //
-//        GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
+//        GlobalDataLoadedListener.AddOnDataLoadedListener(new OnDataLoadedListener() {
 //            @Override
 //            public void OnStockDataParsed(ArrayList<Stock> stocks) {
 //                parseStockData(marketStockList, stocks);
