@@ -14,14 +14,12 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
-import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
-import vn.realtest.stock.justanewproject.Listeners.OnDataLoadedListener;
-import vn.realtest.stock.justanewproject.Models.GlobalData;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Models.StockType;
-import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
-import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 /**
  * Created by Admin on 1/21/2018.
@@ -33,6 +31,7 @@ public class HnxFragment extends Fragment {
     List<MarketStock> marketStockList;
     RecyclerView rv_hnx;
     MarketAdapter mAdapter;
+    StockType stockType = StockType.HNX;
 
     public static HnxFragment newInstance() {
         HnxFragment fragment = new HnxFragment();
@@ -55,21 +54,14 @@ public class HnxFragment extends Fragment {
         rv_hnx.setLayoutManager(mLayoutManager);
         rv_hnx.setAdapter(mAdapter);
 
-        if (GlobalData.HNX != null) {
-            parseStockData(marketStockList, GlobalData.HNX);
-            mAdapter.notifyDataSetChanged();
-        }
+        parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
+        mAdapter.notifyDataSetChanged();
 
         GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
-            public void OnStockDataParsed(ArrayList<Stock> stocks) {
-                parseStockData(marketStockList, stocks);
+            public void OnStockDataParsed() {
+                parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
                 mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public StockType GetStockType() {
-                return StockType.HNX;
             }
         });
         return view;

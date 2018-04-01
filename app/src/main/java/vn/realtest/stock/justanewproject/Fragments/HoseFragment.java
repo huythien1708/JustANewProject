@@ -14,14 +14,12 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
-import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
-import vn.realtest.stock.justanewproject.Listeners.OnDataLoadedListener;
-import vn.realtest.stock.justanewproject.Models.GlobalData;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Models.StockType;
-import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
-import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 /**
  * Created by Admin on 1/21/2018.
@@ -32,7 +30,7 @@ public class HoseFragment extends Fragment {
     List<MarketStock> marketStockList;
     RecyclerView rv_hose;
     MarketAdapter mAdapter;
-
+    StockType stockType = StockType.HOSE;
 
     public static HoseFragment newInstance() {
         HoseFragment fragment = new HoseFragment();
@@ -55,21 +53,14 @@ public class HoseFragment extends Fragment {
         rv_hose.setLayoutManager(mLayoutManager);
         rv_hose.setAdapter(mAdapter);
 
-        if (GlobalData.HOSE != null) {
-            parseStockData(marketStockList, GlobalData.HOSE);
-            mAdapter.notifyDataSetChanged();
-        }
+        parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
+        mAdapter.notifyDataSetChanged();
 
         GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
-            public void OnStockDataParsed(ArrayList<Stock> stocks) {
-                parseStockData(marketStockList, stocks);
+            public void OnStockDataParsed() {
+                parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
                 mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public StockType GetStockType() {
-                return StockType.HOSE;
             }
         });
 

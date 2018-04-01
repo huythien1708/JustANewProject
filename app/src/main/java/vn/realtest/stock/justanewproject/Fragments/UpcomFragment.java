@@ -14,14 +14,12 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
-import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
-import vn.realtest.stock.justanewproject.Listeners.OnDataLoadedListener;
-import vn.realtest.stock.justanewproject.Models.GlobalData;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Models.StockType;
-import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
-import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 /**
  * Created by Admin on 1/21/2018.
@@ -32,6 +30,7 @@ public class UpcomFragment extends Fragment {
     List<MarketStock> marketStockList;
     RecyclerView rv_upcom;
     MarketAdapter mAdapter;
+    StockType stockType = StockType.UPCOM;
 
     public static UpcomFragment newInstance() {
         UpcomFragment fragment = new UpcomFragment();
@@ -54,21 +53,14 @@ public class UpcomFragment extends Fragment {
         rv_upcom.setLayoutManager(mLayoutManager);
         rv_upcom.setAdapter(mAdapter);
 
-        if (GlobalData.UPCOM != null) {
-            parseStockData(marketStockList, GlobalData.UPCOM);
-            mAdapter.notifyDataSetChanged();
-        }
+        parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
+        mAdapter.notifyDataSetChanged();
 
         GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
-            public void OnStockDataParsed(ArrayList<Stock> stocks) {
-                parseStockData(marketStockList, stocks);
+            public void OnStockDataParsed() {
+                parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
                 mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public StockType GetStockType() {
-                return StockType.UPCOM;
             }
         });
 

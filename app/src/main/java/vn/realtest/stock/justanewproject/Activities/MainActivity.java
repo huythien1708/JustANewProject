@@ -14,16 +14,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.StatisticFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
-import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
-import vn.realtest.stock.justanewproject.Models.GlobalData;
+import vn.realtest.stock.justanewproject.Models.StockType;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
@@ -104,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
-                GlobalData.HNX = stocks;
-                GlobalDataLoadedListener.onGlobalDataLoaded();
+                GlobalDataLoadedListener.setGlobalStockDataByType(StockType.HNX, stocks);
             }
 
             @Override
@@ -118,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
-                GlobalData.HOSE = stocks;
-                GlobalDataLoadedListener.onGlobalDataLoaded();
+                GlobalDataLoadedListener.setGlobalStockDataByType(StockType.HOSE, stocks);
             }
 
             @Override
@@ -132,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
-                GlobalData.UPCOM = stocks;
-                GlobalDataLoadedListener.onGlobalDataLoaded();
+                GlobalDataLoadedListener.setGlobalStockDataByType(StockType.UPCOM, stocks);
+
             }
 
             @Override

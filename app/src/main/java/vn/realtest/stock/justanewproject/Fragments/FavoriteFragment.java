@@ -1,8 +1,6 @@
 package vn.realtest.stock.justanewproject.Fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,14 +14,8 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
-import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
-import vn.realtest.stock.justanewproject.Listeners.OnDataLoadedListener;
-import vn.realtest.stock.justanewproject.Models.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
-import vn.realtest.stock.justanewproject.Models.StockType;
-import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
-import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 /**
  * Created by Admin on 1/21/2018.

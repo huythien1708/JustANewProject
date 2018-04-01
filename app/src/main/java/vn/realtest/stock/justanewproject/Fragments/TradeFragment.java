@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,9 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import vn.realtest.stock.justanewproject.Listeners.GlobalDataLoadedListener;
-import vn.realtest.stock.justanewproject.Listeners.OnDataLoadedListener;
-import vn.realtest.stock.justanewproject.Models.GlobalData;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
@@ -86,13 +85,8 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
 
         GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
-            public void OnStockDataParsed(ArrayList<Stock> stocks) {
+            public void OnStockDataParsed() {
                 getData();
-            }
-
-            @Override
-            public StockType GetStockType() {
-                return StockType.HNX;
             }
         });
 
@@ -100,8 +94,9 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     private void getData() {
-        if (GlobalData.HNX != null && GlobalData.HNX.size() > 0) {
-            Stock stock = GlobalData.HNX.get(0);
+        ArrayList<Stock> data = GlobalDataLoadedListener.getGlobalStockDataByTyppe(StockType.HNX);
+        if (data != null && data.size() > 0) {
+            Stock stock = data.get(0);
             stock_name.setText(stock.getID());
             buy_price_1.setText(String.valueOf(stock.getPriceAsk1()));
             buy_price_2.setText(String.valueOf(stock.getPriceAsk2()));
