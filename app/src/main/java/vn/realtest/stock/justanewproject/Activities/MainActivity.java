@@ -25,6 +25,7 @@ import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.IntervalBackgroundJob;
 import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,42 +94,30 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.content, market);
         transaction.commit();
 
-        prepareStockData();
+        reloadDataPerSpecifiedTime(30000);
     }
 
-    private void prepareStockData() {
-        Log.d("test", "Start fetching: " + System.currentTimeMillis() + "");
-        new StockPresenter(UrlEndpoints.StockDetail.HNX) {
+    private void reloadDataPerSpecifiedTime(long miliseconds) {
+        new IntervalBackgroundJob(0, miliseconds) {
+            @Override
+            public void onDoingInterval() {
+                getStockData();
+            }
+        };
+    }
+
+    private void getStockData() {
+        fetchDataFromUrl(UrlEndpoints.StockDetail.HNX, StockType.HNX);
+        fetchDataFromUrl(UrlEndpoints.StockDetail.HOSE, StockType.HOSE);
+        fetchDataFromUrl(UrlEndpoints.StockDetail.UPCOM, StockType.UPCOM);
+    }
+
+    private void fetchDataFromUrl(String url, final StockType type) {
+        new StockPresenter(url) {
 
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
-                StockStorage.setGlobalStockDataByType(StockType.HNX, stocks);
-            }
-
-            @Override
-            public void OnProgressUpdate(Void... values) {
-
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        new StockPresenter(UrlEndpoints.StockDetail.HOSE) {
-
-            @Override
-            public void OnStockModel(ArrayList<Stock> stocks) {
-                StockStorage.setGlobalStockDataByType(StockType.HOSE, stocks);
-            }
-
-            @Override
-            public void OnProgressUpdate(Void... values) {
-
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        new StockPresenter(UrlEndpoints.StockDetail.UPCOM) {
-
-            @Override
-            public void OnStockModel(ArrayList<Stock> stocks) {
-                StockStorage.setGlobalStockDataByType(StockType.UPCOM, stocks);
+                StockStorage.SetGlobalStockDataByType(type, stocks);
 
             }
 

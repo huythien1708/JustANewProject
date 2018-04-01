@@ -68,7 +68,6 @@ public class HnxFragment extends Fragment {
     }
 
     private void parseStockData(List<MarketStock> marketStockList, ArrayList<Stock> stocks) {
-        Log.d("test", "Start parsing: " + System.currentTimeMillis() + "");
         if (stocks != null && !stocks.isEmpty()) {
             for(Stock stock : stocks) {
                 marketStockList.add(new MarketStock(
@@ -79,6 +78,5 @@ public class HnxFragment extends Fragment {
                 );
             }
         }
-        Log.d("test", "End parsing: " + System.currentTimeMillis() + "");
     }
 }

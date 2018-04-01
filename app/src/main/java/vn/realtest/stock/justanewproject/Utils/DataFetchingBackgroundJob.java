@@ -33,7 +33,6 @@ public abstract class DataFetchingBackgroundJob extends AsyncTask<Void, Void, St
         String dataString = "";
         try {
             HttpHandler sh = new HttpHandler();
-            Log.d("test", "Start sending to url: " + url + " at " + System.currentTimeMillis());
 
             // Making a request to url and getting response
             dataString = sh.sendRequest(url, "");
@@ -52,7 +51,6 @@ public abstract class DataFetchingBackgroundJob extends AsyncTask<Void, Void, St
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.d("test", "End fetching url: " + url + " at " + System.currentTimeMillis());
         OnPostExecute(s);
     }
 

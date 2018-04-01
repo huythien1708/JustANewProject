@@ -28,7 +28,7 @@ public class StockStorage {
         }
     }
 
-    public static void setGlobalStockDataByType(StockType type, ArrayList<Stock> stocks) {
+    public static void SetGlobalStockDataByType(StockType type, ArrayList<Stock> stocks) {
         switch (type) {
             case HNX: GlobalData.HNX = stocks; break;
             case HOSE: GlobalData.HOSE = stocks; break;
