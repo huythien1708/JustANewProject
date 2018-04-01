@@ -21,8 +21,7 @@ import vn.realtest.stock.justanewproject.Fragments.StatisticFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
 import vn.realtest.stock.justanewproject.Models.StockType;
-import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalDataLoadedListener;
-import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
-                GlobalDataLoadedListener.setGlobalStockDataByType(StockType.HNX, stocks);
+                StockStorage.setGlobalStockDataByType(StockType.HNX, stocks);
             }
 
             @Override
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
-                GlobalDataLoadedListener.setGlobalStockDataByType(StockType.HOSE, stocks);
+                StockStorage.setGlobalStockDataByType(StockType.HOSE, stocks);
             }
 
             @Override
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
-                GlobalDataLoadedListener.setGlobalStockDataByType(StockType.UPCOM, stocks);
+                StockStorage.setGlobalStockDataByType(StockType.UPCOM, stocks);
 
             }
 

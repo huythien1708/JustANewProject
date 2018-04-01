@@ -9,7 +9,7 @@ import vn.realtest.stock.justanewproject.Models.StockType;
  * Created by Tran on 31-Mar-18.
  */
 
-public class GlobalDataLoadedListener {
+public class StockStorage {
 
     private static ArrayList<OnDataLoadedListener> onDataLoadedListeners = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class GlobalDataLoadedListener {
         }
     }
 
-    public static ArrayList<Stock> getGlobalStockDataByTyppe(StockType type) {
+    public static ArrayList<Stock> getGlobalStockDataByType(StockType type) {
         switch (type) {
             case HNX: return GlobalData.HNX;
             case HOSE: return GlobalData.HOSE;

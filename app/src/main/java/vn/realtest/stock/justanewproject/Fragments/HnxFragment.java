@@ -14,9 +14,8 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
-import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalDataLoadedListener;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
-import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
@@ -54,13 +53,13 @@ public class HnxFragment extends Fragment {
         rv_hnx.setLayoutManager(mLayoutManager);
         rv_hnx.setAdapter(mAdapter);
 
-        parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
+        parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
         mAdapter.notifyDataSetChanged();
 
-        GlobalDataLoadedListener.addOnDataLoadedListener(new OnDataLoadedListener() {
+        StockStorage.addOnDataLoadedListener(new OnDataLoadedListener() {
             @Override
             public void OnStockDataParsed() {
-                parseStockData(marketStockList, GlobalDataLoadedListener.getGlobalStockDataByTyppe(stockType));
+                parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
                 mAdapter.notifyDataSetChanged();
             }
         });
