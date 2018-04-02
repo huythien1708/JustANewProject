@@ -30,6 +30,9 @@ import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 public class MainActivity extends AppCompatActivity {
     TextView mTitleTv;
+
+    private static final long TIMEFORRELOADING = 60 * 1000; // 1 minute
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.content, market);
         transaction.commit();
 
-        reloadDataPerSpecifiedTime(30000);
+        reloadDataPerSpecifiedTime(TIMEFORRELOADING);
     }
 
     private void reloadDataPerSpecifiedTime(long miliseconds) {

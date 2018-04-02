@@ -73,9 +73,9 @@ public class FavoriteFragment extends Fragment {
             for(Stock stock : stocks) {
                 marketStockList.add(new MarketStock(
                         stock.getID() + "",
-                        stock.getTotalValue() + "",
-                        stock.getOffsetMatched() + "%",
-                        stock.getTotalVolume() + "")
+                        stock.getPriceMatched(),
+                        stock.getOffsetMatched(),
+                        stock.getTotalVolume())
                 );
             }
         }
