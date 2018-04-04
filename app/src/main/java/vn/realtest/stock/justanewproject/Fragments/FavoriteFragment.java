@@ -4,13 +4,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.realtest.stock.justanewproject.Activities.MainActivity;
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.R;
@@ -19,11 +22,14 @@ import vn.realtest.stock.justanewproject.R;
  * Created by Admin on 1/21/2018.
  */
 
+
 public class FavoriteFragment extends Fragment {
     View view;
     List<MarketStock> marketStockList;
     RecyclerView rv_favorite;
     MarketAdapter mAdapter;
+    boolean check;
+    String passed_data = "", data = "";
 
     public static FavoriteFragment newInstance() {
         FavoriteFragment fragment = new FavoriteFragment();
@@ -46,20 +52,22 @@ public class FavoriteFragment extends Fragment {
         rv_favorite.setLayoutManager(mLayoutManager);
         rv_favorite.setAdapter(mAdapter);
         prepareStockData();
+        receiveData();
         return view;
     }
 
+    private void receiveData() {
+        MainActivity activity = (MainActivity) getActivity();
+        data = activity.getMyData();
+        if (!data.isEmpty()) {
+            MarketStock marketStock = new MarketStock(data, "31.5", "-1.36%", "Vol: 3000");
+            marketStockList.add(marketStock);
+        }
+
+    }
+
     private void prepareStockData() {
-
-        MarketStock marketStock = new MarketStock("GMD", "31.5", "-1.36%", "Vol: 3000");
-        marketStockList.add(marketStock);
-
-        marketStock = new MarketStock("PVS","20.5","+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
-
-        marketStock = new MarketStock("PVD","20.5","+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
-
         mAdapter.notifyDataSetChanged();
     }
+
 }

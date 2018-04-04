@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
+import vn.realtest.stock.justanewproject.Activities.MainActivity;
 import vn.realtest.stock.justanewproject.R;
 
 public class TradeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -37,11 +38,12 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
     private View view;
     private Button btn_trade;
     private int up, down;
-    private String buy,sell;
+    private String buy, sell;
     private Context mContext;
     private int increase_value, decrease_value;
     private DecimalFormat df;
-    String dx;
+    String dx, data;
+
     public static TradeFragment newInstance() {
         TradeFragment fragment = new TradeFragment();
         return fragment;
@@ -72,9 +74,10 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
         stock_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
             }
         });
+        receiveData();
         return view;
     }
 
@@ -88,14 +91,14 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 double a;
-                if(trade_value.getText().toString().equals(""))
+                if (trade_value.getText().toString().equals(""))
                     a = 0;
-                 else
+                else
                     a = Double.parseDouble(trade_value.getText().toString());
 
 
                 double b = Double.parseDouble(trade_amount.getText().toString());
-                double c = a*b;
+                double c = a * b;
                 df = new DecimalFormat("#.##");
                 dx = df.format(c);
                 c = Double.valueOf(dx);
@@ -116,13 +119,13 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 double a;
-                if(trade_amount.getText().toString().equals(""))
+                if (trade_amount.getText().toString().equals(""))
                     a = 0;
                 else
                     a = Double.parseDouble(trade_amount.getText().toString());
 
                 double b = Double.parseDouble(trade_value.getText().toString());
-                double c = a*b;
+                double c = a * b;
                 df = new DecimalFormat("#.##");
                 dx = df.format(c);
                 c = Double.valueOf(dx);
@@ -141,15 +144,15 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
             @Override
             public void onClick(View view) {
                 double a = Double.parseDouble(trade_value.getText().toString()) - 0.05;
-                if(a<0){
-                    a=0;
+                if (a < 0) {
+                    a = 0;
                 }
                 df = new DecimalFormat("#.##");
                 dx = df.format(a);
                 a = Double.valueOf(dx);
                 trade_value.setText(String.valueOf(a));
                 double b = Double.parseDouble(trade_amount.getText().toString());
-                double c = a*b;
+                double c = a * b;
                 df = new DecimalFormat("#.##");
                 dx = df.format(c);
                 c = Double.valueOf(dx);
@@ -160,15 +163,15 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
             @Override
             public void onClick(View view) {
                 double a = Double.parseDouble(trade_value.getText().toString()) + 0.05;
-                if(a<0){
-                    a=0;
+                if (a < 0) {
+                    a = 0;
                 }
                 df = new DecimalFormat("#.##");
                 dx = df.format(a);
                 a = Double.valueOf(dx);
                 trade_value.setText(String.valueOf(a));
                 double b = Double.parseDouble(trade_amount.getText().toString());
-                double c = a*b;
+                double c = a * b;
                 df = new DecimalFormat("#.##");
                 dx = df.format(c);
                 c = Double.valueOf(dx);
@@ -180,12 +183,12 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
             @Override
             public void onClick(View view) {
                 double a = Double.parseDouble(trade_amount.getText().toString()) - 10;
-                if(a<0){
-                    a=0;
+                if (a < 0) {
+                    a = 0;
                 }
                 trade_amount.setText(String.valueOf(a));
                 double b = Double.parseDouble(trade_value.getText().toString());
-                double c = a*b;
+                double c = a * b;
                 df = new DecimalFormat("#.##");
                 dx = df.format(c);
                 c = Double.valueOf(dx);
@@ -196,12 +199,12 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
             @Override
             public void onClick(View view) {
                 double a = Double.parseDouble(trade_amount.getText().toString()) + 10;
-                if(a<0){
-                    a=0;
+                if (a < 0) {
+                    a = 0;
                 }
                 trade_amount.setText(String.valueOf(a));
                 double b = Double.parseDouble(trade_value.getText().toString());
-                double c = a*b;
+                double c = a * b;
                 df = new DecimalFormat("#.##");
                 dx = df.format(c);
                 c = Double.valueOf(dx);
@@ -211,44 +214,44 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     private void setTextColor() {
-        if(Integer.parseInt(buy_price_1.getText().toString()) < Integer.parseInt(match_price.getText().toString()) ){
+        if (Integer.parseInt(buy_price_1.getText().toString()) < Integer.parseInt(match_price.getText().toString())) {
             buy_price_1.setTextColor(decrease_value);
-        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())){
+        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())) {
             buy_price_1.setTextColor(increase_value);
         } else {
             buy_price_1.setTextColor(increase_value);
         }
-        if(Integer.parseInt(buy_price_2.getText().toString()) < Integer.parseInt(match_price.getText().toString()) ){
+        if (Integer.parseInt(buy_price_2.getText().toString()) < Integer.parseInt(match_price.getText().toString())) {
             buy_price_2.setTextColor(decrease_value);
-        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())){
+        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())) {
             buy_price_2.setTextColor(increase_value);
         } else {
             buy_price_2.setTextColor(increase_value);
         }
-        if(Integer.parseInt(buy_price_3.getText().toString()) < Integer.parseInt(match_price.getText().toString()) ){
+        if (Integer.parseInt(buy_price_3.getText().toString()) < Integer.parseInt(match_price.getText().toString())) {
             buy_price_3.setTextColor(decrease_value);
-        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())){
+        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())) {
             buy_price_3.setTextColor(increase_value);
         } else {
             buy_price_3.setTextColor(increase_value);
         }
-        if(Integer.parseInt(sell_price_1.getText().toString()) < Integer.parseInt(match_price.getText().toString()) ){
+        if (Integer.parseInt(sell_price_1.getText().toString()) < Integer.parseInt(match_price.getText().toString())) {
             sell_price_1.setTextColor(decrease_value);
-        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())){
+        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())) {
             sell_price_1.setTextColor(increase_value);
         } else {
             sell_price_1.setTextColor(increase_value);
         }
-        if(Integer.parseInt(sell_price_2.getText().toString()) < Integer.parseInt(match_price.getText().toString()) ){
+        if (Integer.parseInt(sell_price_2.getText().toString()) < Integer.parseInt(match_price.getText().toString())) {
             sell_price_2.setTextColor(decrease_value);
-        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())){
+        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())) {
             sell_price_2.setTextColor(increase_value);
         } else {
             sell_price_2.setTextColor(increase_value);
         }
-        if(Integer.parseInt(sell_price_3.getText().toString()) < Integer.parseInt(match_price.getText().toString()) ){
+        if (Integer.parseInt(sell_price_3.getText().toString()) < Integer.parseInt(match_price.getText().toString())) {
             sell_price_3.setTextColor(decrease_value);
-        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())){
+        } else if (Integer.parseInt(buy_price_1.getText().toString()) == Integer.parseInt(match_price.getText().toString())) {
             sell_price_3.setTextColor(increase_value);
         } else {
             sell_price_3.setTextColor(increase_value);
@@ -290,7 +293,7 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String show = spinner_trade.getSelectedItem().toString();
 
-        if(show.equals(buy)){
+        if (show.equals(buy)) {
             btn_trade.setText(buy);
             btn_trade.setBackgroundColor(up);
         }
@@ -302,6 +305,15 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private void receiveData() {
+        MainActivity activity = (MainActivity) getActivity();
+        data = activity.getMyData();
+        if (!data.isEmpty()) {
+            stock_name.setText(data);
+        }
 
     }
 }
