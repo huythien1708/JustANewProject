@@ -28,7 +28,7 @@ import vn.realtest.stock.justanewproject.R;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTitleTv;
-    public String pass_data = "";
+    public String stock_name_data = "", stock_index_data = "", id_data = "";
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
         //receive data from adapter
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("wow"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver1, new IntentFilter("hnx_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver2, new IntentFilter("hose_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver3, new IntentFilter("upcom_adapter"));
 
         //set Market Fragment as default screen
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -97,15 +99,45 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    public BroadcastReceiver mMessageReceiver1 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            pass_data = intent.getStringExtra("stockname");
+            stock_name_data = intent.getStringExtra("stockname");
+            stock_index_data = intent.getStringExtra("index");
+            id_data = intent.getStringExtra("id_san");
         }
     };
 
-    public String getMyData() {
-        return pass_data;
+    public BroadcastReceiver mMessageReceiver2 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            stock_name_data = intent.getStringExtra("stockname");
+            stock_index_data = intent.getStringExtra("index");
+            id_data = intent.getStringExtra("id_san");
+        }
+    };
+
+    public BroadcastReceiver mMessageReceiver3 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            stock_name_data = intent.getStringExtra("stockname");
+            stock_index_data = intent.getStringExtra("index");
+            id_data = intent.getStringExtra("id_san");
+        }
+    };
+
+    public String getStockName() {
+        return stock_name_data;
+    }
+
+    public String getStockIndex() {
+        return stock_index_data;
+    }
+
+    public String getIdData() {
+        return id_data;
     }
 }

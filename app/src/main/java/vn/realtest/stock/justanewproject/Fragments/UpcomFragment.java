@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
+import vn.realtest.stock.justanewproject.Adapter.HoseAdapter;
+import vn.realtest.stock.justanewproject.Adapter.UpcomAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.R;
 
@@ -23,7 +24,7 @@ public class UpcomFragment extends Fragment {
     View view;
     List<MarketStock> marketStockList;
     RecyclerView rv_upcom;
-    MarketAdapter mAdapter;
+    UpcomAdapter mAdapter;
 
     public static UpcomFragment newInstance() {
         UpcomFragment fragment = new UpcomFragment();
@@ -41,7 +42,7 @@ public class UpcomFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_upcom, container, false);
         marketStockList = new ArrayList<>();
         rv_upcom = (RecyclerView) view.findViewById(R.id.rv_upcom);
-        mAdapter = new MarketAdapter(marketStockList);
+        mAdapter = new UpcomAdapter(marketStockList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_upcom.setLayoutManager(mLayoutManager);
         rv_upcom.setAdapter(mAdapter);
@@ -54,10 +55,10 @@ public class UpcomFragment extends Fragment {
         MarketStock marketStock = new MarketStock("KBC", "31.5", "-1.36%", "Vol: 3000");
         marketStockList.add(marketStock);
 
-        marketStock = new MarketStock("DVN","20.5","+5.6%", "Vol: 5000");
+        marketStock = new MarketStock("DVN", "20.5", "+5.6%", "Vol: 5000");
         marketStockList.add(marketStock);
 
-        marketStock = new MarketStock("IDI","20.5","+5.6%", "Vol: 5000");
+        marketStock = new MarketStock("IDI", "20.5", "+5.6%", "Vol: 5000");
         marketStockList.add(marketStock);
 
         mAdapter.notifyDataSetChanged();

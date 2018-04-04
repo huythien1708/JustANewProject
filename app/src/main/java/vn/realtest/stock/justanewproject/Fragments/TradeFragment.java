@@ -42,7 +42,7 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
     private Context mContext;
     private int increase_value, decrease_value;
     private DecimalFormat df;
-    String dx, data;
+    String dx, stock_name_data, stock_index_data, id_data;
 
     public static TradeFragment newInstance() {
         TradeFragment fragment = new TradeFragment();
@@ -310,9 +310,14 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
 
     private void receiveData() {
         MainActivity activity = (MainActivity) getActivity();
-        data = activity.getMyData();
-        if (!data.isEmpty()) {
-            stock_name.setText(data);
+        stock_name_data = activity.getStockName();
+        stock_index_data = activity.getStockIndex();
+        id_data = activity.getIdData();
+
+
+        if (!(stock_name_data.isEmpty() && stock_index_data.isEmpty())) {
+            Toast.makeText(view.getContext(), "Trade: stock name: " + stock_name_data + " stock index: " + stock_index_data + " id_san: " + id_data, Toast.LENGTH_SHORT).show();
+            stock_name.setText(stock_name_data);
         }
 
     }
