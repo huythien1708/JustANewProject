@@ -1,9 +1,11 @@
 package vn.realtest.stock.justanewproject.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +27,7 @@ import vn.realtest.stock.justanewproject.R;
 public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStockViewHolder>{
     List<MarketStock> marketStockList;
     int increase_value, decrease_value;
+    Context context;
     public static class MarketStockViewHolder extends RecyclerView.ViewHolder {
         CardView cv_market;
         TextView stock_name, stock_value, stock_change, stock_vol;
@@ -54,7 +57,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStoc
 
     @Override
     public void onBindViewHolder(MarketStockViewHolder holder, int position) {
-        MarketStock marketStock = marketStockList.get(position);
+        final MarketStock marketStock = marketStockList.get(position);
         holder.stock_name.setText(marketStock.getStock_name());
         holder.stock_value.setText(marketStock.getStock_value());
         holder.stock_change.setText(marketStock.getStock_change_rate());
@@ -64,6 +67,15 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.MarketStoc
         } else if (!check_rate(marketStock.getStock_change_rate())){
             holder.stock_change.setBackgroundColor(decrease_value);
         }
+        holder.cv_market.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String stock_name = marketStock.getStock_name();
+                Intent intent = new Intent("wow");
+                intent.putExtra("stockname", stock_name);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+            }
+        });
     }
 
     @Override

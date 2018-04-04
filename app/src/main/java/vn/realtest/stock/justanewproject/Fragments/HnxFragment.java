@@ -1,5 +1,6 @@
 package vn.realtest.stock.justanewproject.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.realtest.stock.justanewproject.Activities.MainActivity;
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.R;
@@ -49,6 +51,7 @@ public class HnxFragment extends Fragment {
         prepareStockData();
         return view;
     }
+
 
     private void prepareStockData() {
         MarketStock marketStock = new MarketStock("HVN", "31.5", "-1.36%", "Vol: 3000");
