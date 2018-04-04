@@ -43,6 +43,27 @@ public class MarketFragment extends Fragment {
         } else {
             tabLayout.setTabTextColors(Color.parseColor(getResources().getString(R.color.pager_view_text)),Color.parseColor(getResources().getString(R.color.pager_view_text)) );
         }
+
+        //update data when Fragment receive data from activity
+       pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+           @Override
+           public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+           }
+
+           @Override
+           public void onPageSelected(int position) {
+               if(position==0){
+                   pager.getAdapter().notifyDataSetChanged();
+               }
+
+           }
+
+           @Override
+           public void onPageScrollStateChanged(int state) {
+
+           }
+       });
         return rootView;
     }
 
