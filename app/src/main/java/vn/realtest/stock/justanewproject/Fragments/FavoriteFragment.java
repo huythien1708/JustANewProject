@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.R;
 
 /**
@@ -45,21 +47,37 @@ public class FavoriteFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_favorite.setLayoutManager(mLayoutManager);
         rv_favorite.setAdapter(mAdapter);
-        prepareStockData();
+
+//        if (GlobalData.HNX != null) {
+//            parseStockData(marketStockList, GlobalData.HNX);
+//            mAdapter.notifyDataSetChanged();
+//        }
+//
+//        GlobalDataLoadedListener.AddOnDataLoadedListener(new OnDataLoadedListener() {
+//            @Override
+//            public void OnStockDataParsed(ArrayList<Stock> stocks) {
+//                parseStockData(marketStockList, stocks);
+//                mAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public StockType GetStockType() {
+//                return StockType.HNX;
+//            }
+//        });
         return view;
     }
 
-    private void prepareStockData() {
-
-        MarketStock marketStock = new MarketStock("GMD", "31.5", "-1.36%", "Vol: 3000");
-        marketStockList.add(marketStock);
-
-        marketStock = new MarketStock("PVS","20.5","+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
-
-        marketStock = new MarketStock("PVD","20.5","+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
-
-        mAdapter.notifyDataSetChanged();
+    private void parseStockData(List<MarketStock> marketStockList, ArrayList<Stock> stocks) {
+        if (stocks != null && !stocks.isEmpty()) {
+            for(Stock stock : stocks) {
+                marketStockList.add(new MarketStock(
+                        stock.getID() + "",
+                        stock.getPriceMatched(),
+                        stock.getOffsetMatched(),
+                        stock.getTotalVolume())
+                );
+            }
+        }
     }
 }

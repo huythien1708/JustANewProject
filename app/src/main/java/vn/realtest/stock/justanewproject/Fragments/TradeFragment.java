@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
 
 public class TradeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -75,7 +79,37 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
                 Toast.makeText(getContext(),"OK", Toast.LENGTH_SHORT).show();
             }
         });
+
+        getData();
+
+        StockStorage.AddOnDataLoadedListener(new OnDataLoadedListener() {
+            @Override
+            public void OnStockDataParsed() {
+                getData();
+            }
+        });
+
         return view;
+    }
+
+    private void getData() {
+        ArrayList<Stock> data = StockStorage.getGlobalStockDataByType(StockType.HNX);
+        if (data != null && data.size() > 0) {
+            Stock stock = data.get(0);
+            stock_name.setText(stock.getID());
+            buy_price_1.setText(String.valueOf(stock.getPriceAsk1()));
+            buy_price_2.setText(String.valueOf(stock.getPriceAsk2()));
+            buy_price_3.setText(String.valueOf(stock.getPriceAsk3()));
+            buy_amount_1.setText(String.valueOf(stock.getVolumeAsk1()));
+            buy_amount_2.setText(String.valueOf(stock.getVolumeAsk2()));
+            buy_amount_3.setText(String.valueOf(stock.getVolumeAsk3()));
+            sell_price_1.setText(String.valueOf(stock.getPriceBid1()));
+            sell_price_2.setText(String.valueOf(stock.getPriceBid2()));
+            sell_price_3.setText(String.valueOf(stock.getPriceBid3()));
+            sell_amount_1.setText(String.valueOf(stock.getVolumeBid1()));
+            sell_amount_2.setText(String.valueOf(stock.getVolumeBid2()));
+            sell_amount_3.setText(String.valueOf(stock.getVolumeBid3()));
+        }
     }
 
     private void editTextFunction() {
