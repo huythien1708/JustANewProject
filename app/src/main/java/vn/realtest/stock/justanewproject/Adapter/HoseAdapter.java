@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import vn.realtest.stock.justanewproject.Activities.TradeActivity;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.R;
 
@@ -41,8 +43,9 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
         }
     }
 
-    public HoseAdapter(List<MarketStock> marketStockList) {
+    public HoseAdapter(List<MarketStock> marketStockList, Context context) {
         this.marketStockList = marketStockList;
+        this.context = context;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
                 intent.putExtra("index", index);
                 intent.putExtra("id_san", "HOSE");
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                
+                context.startActivity(new Intent(context, TradeActivity.class));
             }
         });
     }

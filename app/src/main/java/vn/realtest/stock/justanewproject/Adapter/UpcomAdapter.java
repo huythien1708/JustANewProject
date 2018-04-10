@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import vn.realtest.stock.justanewproject.Activities.TradeActivity;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.R;
 
@@ -29,7 +30,6 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
     int increase_value, decrease_value;
     Context context;
     String index;
-    public static boolean checkClick;
 
     public static class MarketStockViewHolder extends RecyclerView.ViewHolder {
         CardView cv_market;
@@ -46,8 +46,9 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
         }
     }
 
-    public UpcomAdapter(List<MarketStock> marketStockList) {
+    public UpcomAdapter(List<MarketStock> marketStockList, Context context) {
         this.marketStockList = marketStockList;
+        this.context = context;
     }
 
     @Override
@@ -74,7 +75,6 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
         holder.cv_market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkClick = true;
                 index = String.valueOf(view.getTag());
                 String stock_name = marketStock.getStock_name();
                 Intent intent = new Intent("upcom_adapter");
@@ -82,6 +82,7 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
                 intent.putExtra("index", index);
                 intent.putExtra("id_san", "UPCOM");
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                context.startActivity(new Intent(context, TradeActivity.class));
             }
         });
     }

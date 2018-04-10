@@ -15,20 +15,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import vn.realtest.stock.justanewproject.Fragments.FavoriteFragment;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
-import vn.realtest.stock.justanewproject.Fragments.StatisticFragment;
+import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
 import vn.realtest.stock.justanewproject.R;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTitleTv;
-    public String stock_name_data = "", stock_index_data = "", id_data = "";
+    private ImageView img_search;
+    public static String stock_name_data = "", stock_index_data = "", id_data = "";
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -52,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
                     mTitleTv.setText(R.string.title_fund);
                     break;
                 case R.id.navigation_statistic:
-                    StatisticFragment statistic = new StatisticFragment();
+                    OrderBookFragment statistic = new OrderBookFragment();
                     transaction.replace(R.id.content, statistic);
-                    mTitleTv.setText(R.string.title_statistic);
+                    mTitleTv.setText(R.string.title_book);
                     break;
             }
             transaction.commit();
@@ -87,19 +88,30 @@ public class MainActivity extends AppCompatActivity {
         //disable shift mode by bottomnavigationviewhelper
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
+        img_search = (ImageView) findViewById(R.id.img_search);
+
         //receive data from adapter
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver1, new IntentFilter("hnx_adapter"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver2, new IntentFilter("hose_adapter"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver3, new IntentFilter("upcom_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHNX, new IntentFilter("hnx_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHOSE, new IntentFilter("hose_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverUPCOM, new IntentFilter("upcom_adapter"));
 
         //set Market Fragment as default screen
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         MarketFragment market = new MarketFragment();
         transaction.replace(R.id.content, market);
         transaction.commit();
+
+        img_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
-    public BroadcastReceiver mMessageReceiver1 = new BroadcastReceiver() {
+    public BroadcastReceiver mMessageReceiverHNX = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
@@ -109,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public BroadcastReceiver mMessageReceiver2 = new BroadcastReceiver() {
+    public BroadcastReceiver mMessageReceiverHOSE = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
@@ -119,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public BroadcastReceiver mMessageReceiver3 = new BroadcastReceiver() {
+    public BroadcastReceiver mMessageReceiverUPCOM = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent

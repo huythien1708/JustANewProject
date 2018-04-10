@@ -42,7 +42,7 @@ public class UpcomFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_upcom, container, false);
         marketStockList = new ArrayList<>();
         rv_upcom = (RecyclerView) view.findViewById(R.id.rv_upcom);
-        mAdapter = new UpcomAdapter(marketStockList);
+        mAdapter = new UpcomAdapter(marketStockList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_upcom.setLayoutManager(mLayoutManager);
         rv_upcom.setAdapter(mAdapter);
@@ -63,5 +63,7 @@ public class UpcomFragment extends Fragment {
 
         mAdapter.notifyDataSetChanged();
     }
+
+
 }
 

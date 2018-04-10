@@ -42,7 +42,7 @@ public class HoseFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_hose, container, false);
         marketStockList = new ArrayList<>();
         rv_hose = (RecyclerView) view.findViewById(R.id.rv_hose);
-        mAdapter = new HoseAdapter(marketStockList);
+        mAdapter = new HoseAdapter(marketStockList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_hose.setLayoutManager(mLayoutManager);
         rv_hose.setAdapter(mAdapter);
@@ -55,10 +55,10 @@ public class HoseFragment extends Fragment {
         MarketStock marketStock = new MarketStock("PVD", "31.5", "-1.36%", "Vol: 3000");
         marketStockList.add(marketStock);
 
-        marketStock = new MarketStock("MBB","20.5","+5.6%", "Vol: 5000");
+        marketStock = new MarketStock("MBB", "20.5", "+5.6%", "Vol: 5000");
         marketStockList.add(marketStock);
 
-        marketStock = new MarketStock("BID","20.5","+5.6%", "Vol: 5000");
+        marketStock = new MarketStock("BID", "20.5", "+5.6%", "Vol: 5000");
         marketStockList.add(marketStock);
 
         mAdapter.notifyDataSetChanged();

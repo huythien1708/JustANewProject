@@ -42,7 +42,7 @@ public class HnxFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_hnx, container, false);
         marketStockList = new ArrayList<>();
         rv_hnx = (RecyclerView) view.findViewById(R.id.rv_hnx);
-        mAdapter = new HnxAdapter(marketStockList);
+        mAdapter = new HnxAdapter(marketStockList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_hnx.setLayoutManager(mLayoutManager);
         rv_hnx.setAdapter(mAdapter);
