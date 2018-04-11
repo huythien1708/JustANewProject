@@ -1,6 +1,8 @@
 package vn.realtest.stock.justanewproject.Utils.GlobalStorage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Models.StockType;
@@ -11,11 +13,17 @@ import vn.realtest.stock.justanewproject.Models.StockType;
 
 public class StockStorage {
 
-    private static ArrayList<OnDataLoadedListener> onDataLoadedListeners = new ArrayList<>();
+    private static Map<StockType, ArrayList<OnDataLoadedListener>> onDataLoadedListeners = new HashMap<>();
 
-    public static void AddOnDataLoadedListener(OnDataLoadedListener onDataLoadedListener) {
-        if (onDataLoadedListener != null) {
-            onDataLoadedListeners.add(onDataLoadedListener);
+    public static void AddOnDataLoadedListener(StockType stockType, OnDataLoadedListener onDataLoadedListener) {
+        if (stockType != null && onDataLoadedListener != null) {
+            if (onDataLoadedListeners.containsKey(stockType)) {
+                onDataLoadedListeners.get(stockType).add(onDataLoadedListener);
+            } else {
+                ArrayList<OnDataLoadedListener> onDataLoadedListenerList = new ArrayList<>();
+                onDataLoadedListenerList.add(onDataLoadedListener);
+                onDataLoadedListeners.put(stockType, onDataLoadedListenerList);
+            }
         }
     }
 
@@ -34,12 +42,15 @@ public class StockStorage {
             case HOSE: GlobalData.HOSE = stocks; break;
             case UPCOM: GlobalData.UPCOM = stocks; break;
         }
-        onGlobalDataChanged();
+        onGlobalDataChanged(type);
     }
 
-    private static void onGlobalDataChanged() {
-        for (OnDataLoadedListener onDataLoadedListener : onDataLoadedListeners) {
-            onDataLoadedListener.OnStockDataParsed();
+    private static void onGlobalDataChanged(StockType stockType) {
+        if (stockType != null && onDataLoadedListeners.containsKey(stockType)) {
+            ArrayList<OnDataLoadedListener> onDataLoadedListenerList = onDataLoadedListeners.get(stockType);
+            for (OnDataLoadedListener onDataLoadedListener : onDataLoadedListenerList) {
+                onDataLoadedListener.OnStockDataParsed();
+            }
         }
     }
 

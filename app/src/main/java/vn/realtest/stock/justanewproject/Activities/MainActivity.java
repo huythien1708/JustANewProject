@@ -31,7 +31,7 @@ import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 public class MainActivity extends AppCompatActivity {
     TextView mTitleTv;
 
-    private static final long TIMEFORRELOADING = 60 * 1000; // 1 minute
+    private static final long TIMEFORRELOADING = 15 * 1000; // 1 minute
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void OnStockModel(ArrayList<Stock> stocks) {
                 StockStorage.SetGlobalStockDataByType(type, stocks);
-
             }
 
             @Override
