@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
+import vn.realtest.stock.justanewproject.Adapter.HoseAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
@@ -28,7 +28,7 @@ public class HoseFragment extends Fragment {
     View view;
     List<MarketStock> marketStockList;
     RecyclerView rv_hose;
-    MarketAdapter mAdapter;
+    HoseAdapter mAdapter;
     StockType stockType = StockType.HOSE;
 
     public static HoseFragment newInstance() {
@@ -47,7 +47,7 @@ public class HoseFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_hose, container, false);
         marketStockList = new ArrayList<>();
         rv_hose = (RecyclerView) view.findViewById(R.id.rv_hose);
-        mAdapter = new MarketAdapter(marketStockList);
+        mAdapter = new HoseAdapter(marketStockList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_hose.setLayoutManager(mLayoutManager);
         rv_hose.setAdapter(mAdapter);

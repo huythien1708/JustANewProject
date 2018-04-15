@@ -14,7 +14,7 @@
         android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/img_search"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"

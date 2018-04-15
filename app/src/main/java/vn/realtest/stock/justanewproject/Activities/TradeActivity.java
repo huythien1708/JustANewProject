@@ -1,37 +1,39 @@
-package vn.realtest.stock.justanewproject.Fragments;
+package vn.realtest.stock.justanewproject.Activities;
 
-/**
- * Created by Admin on 1/20/2018.
- */
-
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
-import vn.realtest.stock.justanewproject.Activities.MainActivity;
-import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
-import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
-import vn.realtest.stock.justanewproject.Models.Stock;
-import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
 
-public class TradeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+/**
+ * Created by Admin on 1/20/2018.
+ */
+
+public class TradeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    private TextView mTitleTv;
     private TextView buy_price_1, buy_price_2, buy_price_3, buy_amount_1, buy_amount_2, buy_amount_3;
     private TextView sell_price_1, sell_price_2, sell_price_3, sell_amount_1, sell_amount_2, sell_amount_3;
     private TextView match_price, stock_name;
@@ -39,82 +41,53 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
     private EditText trade_value, trade_amount;
     private TextView minus_price, plus_price, minus_amount, plus_amount;
     private Spinner spinner_trade;
-    private View view;
     private Button btn_trade;
     private int up, down;
     private String buy, sell;
     private Context mContext;
     private int increase_value, decrease_value;
     private DecimalFormat df;
-    String dx, stock_name_data, stock_index_data, id_data;
-
-    public static TradeFragment newInstance() {
-        TradeFragment fragment = new TradeFragment();
-        return fragment;
-    }
+    private String dx;
+    private String stock_name_data = "", stock_index_data = "", id_data = "";
+    private ImageView img_search;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.fragment_trade);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_trade, container, false);
+
+        ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        mTitleTv = (TextView) mCustomView.findViewById(R.id.title_text);
+        mTitleTv.setText(R.string.title_trade);
+
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
+        //get data from adapter
         init();
-        mContext = view.getContext();
-        increase_value = ContextCompat.getColor(mContext, R.color.increase_value);
-        decrease_value = ContextCompat.getColor(mContext, R.color.decrease_value);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+        increase_value = ContextCompat.getColor(getApplicationContext(), R.color.increase_value);
+        decrease_value = ContextCompat.getColor(getApplicationContext(), R.color.decrease_value);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                 R.array.buy_sell, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_trade.setAdapter(adapter);
         spinner_trade.setOnItemSelectedListener(this);
-//        spinner_trade.setBackgroundColor(increase_value);
         setTextColor();
         minusPlusFunction();
         editTextFunction();
-
-        stock_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
-            }
-        });
-        receiveData();
-
-        getData();
-
-        StockStorage.AddOnDataLoadedListener(StockType.HNX, new OnDataLoadedListener() {
-            @Override
-            public void OnStockDataParsed() {
-                getData();
-            }
-        });
-
-        return view;
+        stock_index_data = MainActivity.stock_index_data;
+        stock_name_data = MainActivity.stock_name_data;
+        id_data = MainActivity.id_data;
+        stock_name.setText(stock_name_data);
+        Log.d("abcxyz", "Trade, stock_name: "+ stock_name_data +" stock_index: "+stock_index_data+" id_san: "+id_data);
     }
 
-    private void getData() {
-        ArrayList<Stock> data = StockStorage.getGlobalStockDataByType(StockType.HNX);
-        if (data != null && data.size() > 0) {
-            Stock stock = data.get(0);
-            stock_name.setText(stock.getID());
-            buy_price_1.setText(String.valueOf(stock.getPriceAsk1()));
-            buy_price_2.setText(String.valueOf(stock.getPriceAsk2()));
-            buy_price_3.setText(String.valueOf(stock.getPriceAsk3()));
-            buy_amount_1.setText(String.valueOf(stock.getVolumeAsk1()));
-            buy_amount_2.setText(String.valueOf(stock.getVolumeAsk2()));
-            buy_amount_3.setText(String.valueOf(stock.getVolumeAsk3()));
-            sell_price_1.setText(String.valueOf(stock.getPriceBid1()));
-            sell_price_2.setText(String.valueOf(stock.getPriceBid2()));
-            sell_price_3.setText(String.valueOf(stock.getPriceBid3()));
-            sell_amount_1.setText(String.valueOf(stock.getVolumeBid1()));
-            sell_amount_2.setText(String.valueOf(stock.getVolumeBid2()));
-            sell_amount_3.setText(String.valueOf(stock.getVolumeBid3()));
-        }
-    }
+
 
     private void editTextFunction() {
         trade_value.addTextChangedListener(new TextWatcher() {
@@ -294,33 +267,34 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     private void init() {
-        stock_name = (TextView) view.findViewById(R.id.tv_stock_name_trade);
-        buy_price_1 = (TextView) view.findViewById(R.id.tv_buy_price_1);
-        buy_price_2 = (TextView) view.findViewById(R.id.tv_buy_price_2);
-        buy_price_3 = (TextView) view.findViewById(R.id.tv_buy_price_3);
-        buy_amount_1 = (TextView) view.findViewById(R.id.tv_buy_amount_1);
-        buy_amount_2 = (TextView) view.findViewById(R.id.tv_buy_amount_2);
-        buy_amount_3 = (TextView) view.findViewById(R.id.tv_buy_amount_3);
-        sell_price_1 = (TextView) view.findViewById(R.id.tv_sell_price_1);
-        sell_price_2 = (TextView) view.findViewById(R.id.tv_sell_price_2);
-        sell_price_3 = (TextView) view.findViewById(R.id.tv_sell_price_3);
-        sell_amount_1 = (TextView) view.findViewById(R.id.tv_sell_amount_1);
-        sell_amount_2 = (TextView) view.findViewById(R.id.tv_sell_amount_2);
-        sell_amount_3 = (TextView) view.findViewById(R.id.tv_sell_amount_3);
-        match_price = (TextView) view.findViewById(R.id.match_value);
-        total_value = (TextView) view.findViewById(R.id.tv_total_trade);
-        trade_amount = (EditText) view.findViewById(R.id.edt_amount_value);
-        trade_value = (EditText) view.findViewById(R.id.edt_price_value);
-        minus_amount = (TextView) view.findViewById(R.id.tv_decrease_amount_value);
-        minus_price = (TextView) view.findViewById(R.id.tv_decrease_price_value);
-        plus_amount = (TextView) view.findViewById(R.id.tv_increase_amount_value);
-        plus_price = (TextView) view.findViewById(R.id.tv_increase_price_value);
-        spinner_trade = (Spinner) view.findViewById(R.id.spinner_buy_sell);
-        btn_trade = (Button) view.findViewById(R.id.btn_buy_sell);
-        up = ContextCompat.getColor(view.getContext(), R.color.increase_value);
-        down = ContextCompat.getColor(view.getContext(), R.color.decrease_value);
+        stock_name = (TextView) findViewById(R.id.tv_stock_name_trade);
+        buy_price_1 = (TextView) findViewById(R.id.tv_buy_price_1);
+        buy_price_2 = (TextView) findViewById(R.id.tv_buy_price_2);
+        buy_price_3 = (TextView) findViewById(R.id.tv_buy_price_3);
+        buy_amount_1 = (TextView) findViewById(R.id.tv_buy_amount_1);
+        buy_amount_2 = (TextView) findViewById(R.id.tv_buy_amount_2);
+        buy_amount_3 = (TextView) findViewById(R.id.tv_buy_amount_3);
+        sell_price_1 = (TextView) findViewById(R.id.tv_sell_price_1);
+        sell_price_2 = (TextView)findViewById(R.id.tv_sell_price_2);
+        sell_price_3 = (TextView) findViewById(R.id.tv_sell_price_3);
+        sell_amount_1 = (TextView) findViewById(R.id.tv_sell_amount_1);
+        sell_amount_2 = (TextView) findViewById(R.id.tv_sell_amount_2);
+        sell_amount_3 = (TextView) findViewById(R.id.tv_sell_amount_3);
+        match_price = (TextView) findViewById(R.id.match_value);
+        total_value = (TextView) findViewById(R.id.tv_total_trade);
+        trade_amount = (EditText) findViewById(R.id.edt_amount_value);
+        trade_value = (EditText) findViewById(R.id.edt_price_value);
+        minus_amount = (TextView) findViewById(R.id.tv_decrease_amount_value);
+        minus_price = (TextView) findViewById(R.id.tv_decrease_price_value);
+        plus_amount = (TextView)findViewById(R.id.tv_increase_amount_value);
+        plus_price = (TextView) findViewById(R.id.tv_increase_price_value);
+        spinner_trade = (Spinner) findViewById(R.id.spinner_buy_sell);
+        btn_trade = (Button) findViewById(R.id.btn_buy_sell);
+        up = ContextCompat.getColor(getApplicationContext(), R.color.increase_value);
+        down = ContextCompat.getColor(getApplicationContext(), R.color.decrease_value);
         buy = getResources().getString(R.string.action_buy);
         sell = getResources().getString(R.string.action_sell);
+        img_search = (ImageView) findViewById(R.id.img_search);
     }
 
 
@@ -335,6 +309,7 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
         if (show.equals(sell)) {
             btn_trade.setText(sell);
             btn_trade.setBackgroundColor(down);
+
         }
     }
 
@@ -343,16 +318,4 @@ public class TradeFragment extends Fragment implements AdapterView.OnItemSelecte
 
     }
 
-    private void receiveData() {
-        MainActivity activity = (MainActivity) getActivity();
-        stock_name_data = activity.getStockName();
-        stock_index_data = activity.getStockIndex();
-        id_data = activity.getIdData();
-
-
-        if (!(stock_name_data.isEmpty() && stock_index_data.isEmpty())) {
-            stock_name.setText(stock_name_data);
-        }
-
-    }
 }

@@ -1,23 +1,30 @@
 package vn.realtest.stock.justanewproject.Activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
-import vn.realtest.stock.justanewproject.Fragments.StatisticFragment;
+import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
 import vn.realtest.stock.justanewproject.Models.StockType;
@@ -29,7 +36,9 @@ import vn.realtest.stock.justanewproject.Utils.IntervalBackgroundJob;
 import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 public class MainActivity extends AppCompatActivity {
-    TextView mTitleTv;
+    private TextView mTitleTv;
+    private ImageView img_search;
+    public static String stock_name_data = "", stock_index_data = "", id_data = "";
 
     private static final long TIMEFORRELOADING = 15 * 1000; // 1 minute
 
@@ -56,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
                     mTitleTv.setText(R.string.title_fund);
                     break;
                 case R.id.navigation_statistic:
-                    StatisticFragment statistic = new StatisticFragment();
+                    OrderBookFragment statistic = new OrderBookFragment();
                     transaction.replace(R.id.content, statistic);
-                    mTitleTv.setText(R.string.title_statistic);
+                    mTitleTv.setText(R.string.title_book);
                     break;
             }
             transaction.commit();
@@ -91,13 +100,70 @@ public class MainActivity extends AppCompatActivity {
         //disable shift mode by bottomnavigationviewhelper
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
+        img_search = (ImageView) findViewById(R.id.img_search);
+
+        //receive data from adapter
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHNX, new IntentFilter("hnx_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHOSE, new IntentFilter("hose_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverUPCOM, new IntentFilter("upcom_adapter"));
+
         //set Market Fragment as default screen
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         MarketFragment market = new MarketFragment();
         transaction.replace(R.id.content, market);
         transaction.commit();
 
+        img_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
+                startActivity(intent);
+            }
+        });
+
         reloadDataPerSpecifiedTime(TIMEFORRELOADING);
+    }
+
+    public BroadcastReceiver mMessageReceiverHNX = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            stock_name_data = intent.getStringExtra("stockname");
+            stock_index_data = intent.getStringExtra("index");
+            id_data = intent.getStringExtra("id_san");
+        }
+    };
+
+    public BroadcastReceiver mMessageReceiverHOSE = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            stock_name_data = intent.getStringExtra("stockname");
+            stock_index_data = intent.getStringExtra("index");
+            id_data = intent.getStringExtra("id_san");
+        }
+    };
+
+    public BroadcastReceiver mMessageReceiverUPCOM = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            stock_name_data = intent.getStringExtra("stockname");
+            stock_index_data = intent.getStringExtra("index");
+            id_data = intent.getStringExtra("id_san");
+        }
+    };
+
+    public String getStockName() {
+        return stock_name_data;
+    }
+
+    public String getStockIndex() {
+        return stock_index_data;
+    }
+
+    public String getIdData() {
+        return id_data;
     }
 
     private void reloadDataPerSpecifiedTime(long miliseconds) {

@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
+import vn.realtest.stock.justanewproject.Adapter.HoseAdapter;
+import vn.realtest.stock.justanewproject.Adapter.UpcomAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
@@ -28,7 +29,7 @@ public class UpcomFragment extends Fragment {
     View view;
     List<MarketStock> marketStockList;
     RecyclerView rv_upcom;
-    MarketAdapter mAdapter;
+    UpcomAdapter mAdapter;
     StockType stockType = StockType.UPCOM;
 
     public static UpcomFragment newInstance() {
@@ -47,7 +48,7 @@ public class UpcomFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_upcom, container, false);
         marketStockList = new ArrayList<>();
         rv_upcom = (RecyclerView) view.findViewById(R.id.rv_upcom);
-        mAdapter = new MarketAdapter(marketStockList);
+        mAdapter = new UpcomAdapter(marketStockList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_upcom.setLayoutManager(mLayoutManager);
         rv_upcom.setAdapter(mAdapter);
@@ -79,5 +80,7 @@ public class UpcomFragment extends Fragment {
             }
         }
     }
+
+
 }
 

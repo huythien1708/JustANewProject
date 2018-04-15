@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.realtest.stock.justanewproject.Adapter.MarketAdapter;
+import vn.realtest.stock.justanewproject.Adapter.HnxAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
@@ -29,7 +29,7 @@ public class HnxFragment extends Fragment {
     View view;
     List<MarketStock> marketStockList;
     RecyclerView rv_hnx;
-    MarketAdapter mAdapter;
+    HnxAdapter mAdapter;
     StockType stockType = StockType.HNX;
 
     public static HnxFragment newInstance() {
@@ -48,7 +48,7 @@ public class HnxFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_hnx, container, false);
         marketStockList = new ArrayList<>();
         rv_hnx = (RecyclerView) view.findViewById(R.id.rv_hnx);
-        mAdapter = new MarketAdapter(marketStockList);
+        mAdapter = new HnxAdapter(marketStockList, getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_hnx.setLayoutManager(mLayoutManager);
         rv_hnx.setAdapter(mAdapter);

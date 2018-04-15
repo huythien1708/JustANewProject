@@ -2,6 +2,7 @@ package vn.realtest.stock.justanewproject.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,18 +10,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import vn.realtest.stock.justanewproject.Activities.MainActivity;
 import vn.realtest.stock.justanewproject.Adapter.ViewPagerAdapterMarket;
 import vn.realtest.stock.justanewproject.R;
 
 public class MarketFragment extends Fragment {
     Context mContext;
+    String index_data;
+
     @SuppressLint({"NewApi", "ResourceType"})
     @Nullable
     @Override
@@ -38,11 +40,33 @@ public class MarketFragment extends Fragment {
         });
 
         //set text color trên tab indicator của pager view
-        if(Build.VERSION.SDK_INT >=23){
+        if (Build.VERSION.SDK_INT >= 23) {
             tabLayout.setTabTextColors(ColorStateList.valueOf(getContext().getColor(R.color.pager_view_text)));
         } else {
-            tabLayout.setTabTextColors(Color.parseColor(getResources().getString(R.color.pager_view_text)),Color.parseColor(getResources().getString(R.color.pager_view_text)) );
+            tabLayout.setTabTextColors(Color.parseColor(getResources().getString(R.color.pager_view_text)), Color.parseColor(getResources().getString(R.color.pager_view_text)));
         }
+
+        //update data when Fragment receive data from activity
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                index_data = String.valueOf(position);
+                if (position == 0) {
+                    pager.getAdapter().notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         return rootView;
     }
 

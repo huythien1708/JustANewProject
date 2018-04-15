@@ -2,7 +2,9 @@ package vn.realtest.stock.justanewproject.Fragments;
 
 /**
  * Created by Admin on 1/20/2018.
- */import android.annotation.SuppressLint;
+ */
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -15,11 +17,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import vn.realtest.stock.justanewproject.Adapter.ViewPagerAdapterStatistic;
 import vn.realtest.stock.justanewproject.R;
 
-public class StatisticFragment extends Fragment {
+public class OrderBookFragment extends Fragment {
     Context mContext;
+
     @SuppressLint({"NewApi", "ResourceType"})
     @Nullable
     @Override
@@ -37,10 +41,10 @@ public class StatisticFragment extends Fragment {
         });
 
         //set text color trên tab indicator của pager view
-        if(Build.VERSION.SDK_INT >=23){
+        if (Build.VERSION.SDK_INT >= 23) {
             tabLayout.setTabTextColors(ColorStateList.valueOf(getContext().getColor(R.color.pager_view_text)));
         } else {
-            tabLayout.setTabTextColors(Color.parseColor(getResources().getString(R.color.pager_view_text)),Color.parseColor(getResources().getString(R.color.pager_view_text)) );
+            tabLayout.setTabTextColors(Color.parseColor(getResources().getString(R.color.pager_view_text)), Color.parseColor(getResources().getString(R.color.pager_view_text)));
         }
         return rootView;
     }
