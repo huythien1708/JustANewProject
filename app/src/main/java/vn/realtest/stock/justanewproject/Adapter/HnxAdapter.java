@@ -31,6 +31,10 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
     Context context;
     String index;
 
+    private enum RATESTATUS{
+        UP, DOWN, NOTCHANGED
+    }
+
     public static class MarketStockViewHolder extends RecyclerView.ViewHolder {
         CardView cv_market;
         TextView stock_name, stock_value, stock_change, stock_vol;
@@ -64,13 +68,17 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
         final MarketStock marketStock = marketStockList.get(position);
         holder.cv_market.setTag(position);
         holder.stock_name.setText(marketStock.getStock_name());
-        holder.stock_value.setText(marketStock.getStock_value());
-        holder.stock_change.setText(marketStock.getStock_change_rate());
-        holder.stock_vol.setText(marketStock.getStock_vol());
-        if (check_rate(marketStock.getStock_change_rate())) {
-            holder.stock_change.setBackgroundColor(increase_value);
-        } else if (!check_rate(marketStock.getStock_change_rate())) {
-            holder.stock_change.setBackgroundColor(decrease_value);
+        holder.stock_value.setText(String.valueOf(marketStock.getStock_value()));
+        holder.stock_change.setText(String.valueOf(marketStock.getStock_change_rate()));
+        holder.stock_vol.setText(String.valueOf(marketStock.getStock_vol()));
+
+        switch (check_rate(marketStock.getStock_change_rate())) {
+            case UP:
+                holder.stock_change.setBackgroundColor(increase_value); break;
+            case DOWN:
+                holder.stock_change.setBackgroundColor(decrease_value); break;
+            case NOTCHANGED:
+                break;
         }
         holder.cv_market.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,13 +100,15 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
         return marketStockList.size();
     }
 
-    public boolean check_rate(String rate) {
+    public RATESTATUS check_rate(float rate){
         //rate tăng thì trả về true
-        if (rate.charAt(0) == '+') {
-            return true;
+        if(rate > 0) {
+            return RATESTATUS.UP;
         }
-        return false;
-
+        else if (rate < 0) {
+            return RATESTATUS.DOWN;
+        }
+        return RATESTATUS.NOTCHANGED;
     }
 
 }

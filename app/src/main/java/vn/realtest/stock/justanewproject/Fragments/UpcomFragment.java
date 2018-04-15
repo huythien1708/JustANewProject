@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,10 @@ import java.util.List;
 import vn.realtest.stock.justanewproject.Adapter.HoseAdapter;
 import vn.realtest.stock.justanewproject.Adapter.UpcomAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.OnDataLoadedListener;
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
 
 /**
@@ -25,6 +30,7 @@ public class UpcomFragment extends Fragment {
     List<MarketStock> marketStockList;
     RecyclerView rv_upcom;
     UpcomAdapter mAdapter;
+    StockType stockType = StockType.UPCOM;
 
     public static UpcomFragment newInstance() {
         UpcomFragment fragment = new UpcomFragment();
@@ -46,22 +52,33 @@ public class UpcomFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_upcom.setLayoutManager(mLayoutManager);
         rv_upcom.setAdapter(mAdapter);
-        prepareStockData();
+
+        parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
+        mAdapter.notifyDataSetChanged();
+
+        StockStorage.AddOnDataLoadedListener(stockType, new OnDataLoadedListener() {
+            @Override
+            public void OnStockDataParsed() {
+                parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
         return view;
     }
 
-    private void prepareStockData() {
-
-        MarketStock marketStock = new MarketStock("KBC", "31.5", "-1.36%", "Vol: 3000");
-        marketStockList.add(marketStock);
-
-        marketStock = new MarketStock("DVN", "20.5", "+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
-
-        marketStock = new MarketStock("IDI", "20.5", "+5.6%", "Vol: 5000");
-        marketStockList.add(marketStock);
-
-        mAdapter.notifyDataSetChanged();
+    private void parseStockData(List<MarketStock> marketStockList, ArrayList<Stock> stocks) {
+        if (stocks != null && !stocks.isEmpty()) {
+            marketStockList.clear();
+            for(Stock stock : stocks) {
+                marketStockList.add(new MarketStock(
+                        stock.getID() + "",
+                        stock.getPriceMatched(),
+                        stock.getOffsetMatched(),
+                        stock.getTotalVolume())
+                );
+            }
+        }
     }
 
 

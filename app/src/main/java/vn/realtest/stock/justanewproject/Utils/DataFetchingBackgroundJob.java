@@ -25,6 +25,7 @@ public abstract class DataFetchingBackgroundJob extends AsyncTask<Void, Void, St
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        Log.d("test", "Start fetching url: " + url + " at " + System.currentTimeMillis());
     }
 
     @Override

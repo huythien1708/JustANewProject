@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.List;
 import vn.realtest.stock.justanewproject.Activities.MainActivity;
 import vn.realtest.stock.justanewproject.Adapter.HoseAdapter;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.R;
 
 /**
@@ -52,7 +54,6 @@ public class FavoriteFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_favorite.setLayoutManager(mLayoutManager);
         rv_favorite.setAdapter(mAdapter);
-        prepareStockData();
         receiveData();
         return view;
     }
@@ -63,14 +64,10 @@ public class FavoriteFragment extends Fragment {
         stock_index_data = activity.getStockIndex();
         id_data = activity.getIdData();
         if (!(stock_name_data.isEmpty() && stock_index_data.isEmpty())) {
-            MarketStock marketStock = new MarketStock(stock_name_data, "31.5", "-1.36%", "Vol: 3000");
+            MarketStock marketStock = new MarketStock(stock_name_data, (float)31.5, (float)-1.36, 3000);
             marketStockList.add(marketStock);
         }
 
-    }
-
-    private void prepareStockData() {
-        mAdapter.notifyDataSetChanged();
     }
 
 }

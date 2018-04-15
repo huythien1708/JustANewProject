@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -19,17 +20,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
+import vn.realtest.stock.justanewproject.Models.StockType;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.IntervalBackgroundJob;
+import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTitleTv;
     private ImageView img_search;
     public static String stock_name_data = "", stock_index_data = "", id_data = "";
+
+    private static final long TIMEFORRELOADING = 15 * 1000; // 1 minute
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -109,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        reloadDataPerSpecifiedTime(TIMEFORRELOADING);
     }
 
     public BroadcastReceiver mMessageReceiverHNX = new BroadcastReceiver() {
@@ -151,5 +164,35 @@ public class MainActivity extends AppCompatActivity {
 
     public String getIdData() {
         return id_data;
+    }
+
+    private void reloadDataPerSpecifiedTime(long miliseconds) {
+        new IntervalBackgroundJob(0, miliseconds) {
+            @Override
+            public void onDoingInterval() {
+                getStockData();
+            }
+        };
+    }
+
+    private void getStockData() {
+        fetchDataFromUrl(UrlEndpoints.StockDetail.HNX, StockType.HNX);
+        fetchDataFromUrl(UrlEndpoints.StockDetail.HOSE, StockType.HOSE);
+        fetchDataFromUrl(UrlEndpoints.StockDetail.UPCOM, StockType.UPCOM);
+    }
+
+    private void fetchDataFromUrl(String url, final StockType type) {
+        new StockPresenter(url) {
+
+            @Override
+            public void OnStockModel(ArrayList<Stock> stocks) {
+                StockStorage.SetGlobalStockDataByType(type, stocks);
+            }
+
+            @Override
+            public void OnProgressUpdate(Void... values) {
+
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }
