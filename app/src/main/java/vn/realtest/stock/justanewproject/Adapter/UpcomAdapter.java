@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.res.ResourcesCompat;
@@ -80,17 +81,39 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
             case NOTCHANGED:
                 break;
         }
+
         holder.cv_market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 index = String.valueOf(view.getTag());
                 String stock_name = marketStock.getStock_name();
-                Intent intent = new Intent("upcom_adapter");
+                Intent intent = new Intent(context, TradeActivity.class);
                 intent.putExtra("stockname", stock_name);
                 intent.putExtra("index", index);
                 intent.putExtra("id_san", "UPCOM");
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                context.startActivity(new Intent(context, TradeActivity.class));
+                context.startActivity(intent);
+            }
+        });
+
+        holder.cv_market.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Snackbar snackbar = Snackbar.make(view, "Thêm vào danh sách ưa thích", Snackbar.LENGTH_SHORT);
+                snackbar.setAction("Thêm", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        index = String.valueOf(view.getTag());
+                        String stock_name = marketStock.getStock_name();
+                        Intent intent = new Intent("upcom_adapter");
+                        intent.putExtra("stockname", stock_name);
+                        intent.putExtra("index", index);
+                        intent.putExtra("id_san", "UPCOM");
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                    }
+                });
+                snackbar.show();
+                return true;
             }
         });
     }
@@ -110,5 +133,4 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
         }
         return RATESTATUS.NOTCHANGED;
     }
-
 }
