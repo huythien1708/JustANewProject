@@ -29,7 +29,7 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
     Context context;
     String index;
 
-    private enum RATESTATUS{
+    private enum RATESTATUS {
         UP, DOWN, NOTCHANGED
     }
 
@@ -72,9 +72,11 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
 
         switch (check_rate(marketStock.getStock_change_rate())) {
             case UP:
-                holder.stock_change.setBackgroundColor(increase_value); break;
+                holder.stock_change.setBackgroundColor(increase_value);
+                break;
             case DOWN:
-                holder.stock_change.setBackgroundColor(decrease_value); break;
+                holder.stock_change.setBackgroundColor(decrease_value);
+                break;
             case NOTCHANGED:
                 break;
         }
@@ -119,12 +121,11 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
         return marketStockList.size();
     }
 
-    public RATESTATUS check_rate(float rate){
+    public RATESTATUS check_rate(float rate) {
         //rate tăng thì trả về true
-        if(rate > 0) {
+        if (rate > 0) {
             return RATESTATUS.UP;
-        }
-        else if (rate < 0) {
+        } else if (rate < 0) {
             return RATESTATUS.DOWN;
         }
         return RATESTATUS.NOTCHANGED;
