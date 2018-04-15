@@ -39,18 +39,9 @@ public class HoseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_hose, container, false);
         marketStockList = new ArrayList<>();
-        rv_hose = (RecyclerView) view.findViewById(R.id.rv_hose);
         mAdapter = new HoseAdapter(marketStockList, getContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rv_hose.setLayoutManager(mLayoutManager);
-        rv_hose.setAdapter(mAdapter);
 
         parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
         mAdapter.notifyDataSetChanged();
@@ -62,6 +53,17 @@ public class HoseFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_hose, container, false);
+        rv_hose = (RecyclerView) view.findViewById(R.id.rv_hose);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        rv_hose.setLayoutManager(mLayoutManager);
+        rv_hose.setAdapter(mAdapter);
 
         return view;
     }
