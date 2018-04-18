@@ -1,38 +1,43 @@
 package vn.realtest.stock.justanewproject.Adapter;
 
 import android.content.Context;
+
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
+
+
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
+
 
 import vn.realtest.stock.justanewproject.Activities.TradeActivity;
 import vn.realtest.stock.justanewproject.Data.FavoriteData;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.Databases.FavoriteHelper;
+import vn.realtest.stock.justanewproject.Fragments.FavoriteFragment;
 import vn.realtest.stock.justanewproject.R;
 
 /**
- * Created by Paul on 3/13/2018.
+ * Created by Paul on 4/17/2018.
  */
 
-public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockViewHolder> {
-    List<MarketStock> marketStockList;
-    int increase_value, decrease_value;
-    Context context;
-    String index;
+public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.MarketStockViewHolder> {
+    private List<MarketStock> marketStockList;
+    private int increase_value, decrease_value;
+    private Context context;
+    private FavoriteHelper db;
+    private List<FavoriteData> favoriteDataList;
 
-    private enum RATESTATUS{
+    private enum RATESTATUS {
         UP, DOWN, NOTCHANGED
     }
 
@@ -42,6 +47,8 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
 
         public MarketStockViewHolder(View itemView) {
             super(itemView);
+            db = new FavoriteHelper(itemView.getContext());
+
             cv_market = (CardView) itemView.findViewById(R.id.cv_market);
             stock_name = (TextView) itemView.findViewById(R.id.tv_stock_name_market);
             stock_value = (TextView) itemView.findViewById(R.id.tv_stock_value);
@@ -51,21 +58,21 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
         }
     }
 
-    public HoseAdapter(List<MarketStock> marketStockList, Context context) {
+    public FavoriteAdapter(List<MarketStock> marketStockList, Context context) {
         this.marketStockList = marketStockList;
         this.context = context;
     }
 
     @Override
-    public MarketStockViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public FavoriteAdapter.MarketStockViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.market_stock_item, viewGroup, false);
         increase_value = ContextCompat.getColor(v.getContext(), R.color.increase_value);
         decrease_value = ContextCompat.getColor(v.getContext(), R.color.decrease_value);
-        return new MarketStockViewHolder(v);
+        return new FavoriteAdapter.MarketStockViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(MarketStockViewHolder holder, final int position) {
+    public void onBindViewHolder(FavoriteAdapter.MarketStockViewHolder holder, final int position) {
         final MarketStock marketStock = marketStockList.get(position);
         holder.cv_market.setTag(position);
         holder.stock_name.setText(marketStock.getStock_name());
@@ -75,47 +82,44 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
 
         switch (check_rate(marketStock.getStock_change_rate())) {
             case UP:
-                holder.stock_change.setBackgroundColor(increase_value); break;
+                holder.stock_change.setBackgroundColor(increase_value);
+                break;
             case DOWN:
-                holder.stock_change.setBackgroundColor(decrease_value); break;
+                holder.stock_change.setBackgroundColor(decrease_value);
+                break;
             case NOTCHANGED:
                 break;
         }
-        holder.cv_market.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                index = String.valueOf(view.getTag());
-                String stock_name = marketStock.getStock_name();
-                Intent intent = new Intent(context, TradeActivity.class);
-                intent.putExtra("stockname", stock_name);
-                intent.putExtra("index", index);
-                intent.putExtra("id_san", "HOSE");
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                context.startActivity(intent);
-            }
-        });
+
 
         holder.cv_market.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Snackbar snackbar = Snackbar.make(view, "Thêm vào danh sách ưa thích", Snackbar.LENGTH_SHORT);
-                snackbar.setAction("Thêm", new View.OnClickListener() {
+                Snackbar snackbar = Snackbar.make(view, "Xóa khỏi danh sách ưa thích", Snackbar.LENGTH_SHORT);
+                snackbar.setAction("Xóa", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String index = String.valueOf(position);
-                        String stock_name = marketStock.getStock_name();
-                        FavoriteHelper db = new FavoriteHelper(context);
-                        FavoriteData favoriteData = new FavoriteData(stock_name, index, "HOSE");
-                        if(db.dataExist(stock_name)){
-                            Toast.makeText(view.getContext(), "Đã tồn tại trong danh sách ưa thích", Toast.LENGTH_SHORT).show();
-                        } else {
-                            db.addFavoriteData(favoriteData);
-                        }
-
+                        FavoriteData favoriteData = db.getFavoriteData(position + 1);
+                        db.deleteFavoriteData(favoriteData);
+                        FavoriteFragment.updateListView();
                     }
                 });
                 snackbar.show();
                 return true;
+            }
+        });
+
+        holder.cv_market.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String index = db.getFavoriteData(position + 1).getStock_index();
+                String id_san = db.getFavoriteData(position + 1).getId_san();
+                String stock_name = marketStock.getStock_name();
+                Intent intent = new Intent(view.getContext(), TradeActivity.class);
+                intent.putExtra("stockname", stock_name);
+                intent.putExtra("index", index);
+                intent.putExtra("id_san", id_san);
+                view.getContext().startActivity(intent);
             }
         });
     }
@@ -125,15 +129,13 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
         return marketStockList.size();
     }
 
-    public RATESTATUS check_rate(float rate){
+    public FavoriteAdapter.RATESTATUS check_rate(float rate) {
         //rate tăng thì trả về true
-        if(rate > 0) {
-            return RATESTATUS.UP;
+        if (rate > 0) {
+            return FavoriteAdapter.RATESTATUS.UP;
+        } else if (rate < 0) {
+            return FavoriteAdapter.RATESTATUS.DOWN;
         }
-        else if (rate < 0) {
-            return RATESTATUS.DOWN;
-        }
-        return RATESTATUS.NOTCHANGED;
+        return FavoriteAdapter.RATESTATUS.NOTCHANGED;
     }
-
 }

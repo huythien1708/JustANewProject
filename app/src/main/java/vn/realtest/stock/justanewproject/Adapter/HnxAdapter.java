@@ -15,11 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import vn.realtest.stock.justanewproject.Activities.TradeActivity;
+import vn.realtest.stock.justanewproject.Data.FavoriteData;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Databases.FavoriteHelper;
 import vn.realtest.stock.justanewproject.R;
 
 /**
@@ -30,13 +33,13 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
     List<MarketStock> marketStockList;
     int increase_value, decrease_value;
     Context context;
-    String index;
+//    String index;
 
-    private enum RATESTATUS{
+    private enum RATESTATUS {
         UP, DOWN, NOTCHANGED
     }
 
-    public static class MarketStockViewHolder extends RecyclerView.ViewHolder {
+    public class MarketStockViewHolder extends RecyclerView.ViewHolder {
         CardView cv_market;
         TextView stock_name, stock_value, stock_change, stock_vol;
 
@@ -65,9 +68,9 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
     }
 
     @Override
-    public void onBindViewHolder(MarketStockViewHolder holder, final int position) {
+    public void onBindViewHolder(final MarketStockViewHolder holder, final int position) {
         final MarketStock marketStock = marketStockList.get(position);
-        holder.cv_market.setTag(position);
+//        holder.cv_market.setTag(position);
         holder.stock_name.setText(marketStock.getStock_name());
         holder.stock_value.setText(String.valueOf(marketStock.getStock_value()));
         holder.stock_change.setText(String.valueOf(marketStock.getStock_change_rate()));
@@ -75,16 +78,20 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
 
         switch (check_rate(marketStock.getStock_change_rate())) {
             case UP:
-                holder.stock_change.setBackgroundColor(increase_value); break;
+                holder.stock_change.setBackgroundColor(increase_value);
+                break;
             case DOWN:
-                holder.stock_change.setBackgroundColor(decrease_value); break;
+                holder.stock_change.setBackgroundColor(decrease_value);
+                break;
             case NOTCHANGED:
                 break;
         }
+
+
         holder.cv_market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                index = String.valueOf(view.getTag());
+                String index = String.valueOf(position);
                 String stock_name = marketStock.getStock_name();
                 Intent intent = new Intent(context, TradeActivity.class);
                 intent.putExtra("stockname", stock_name);
@@ -102,13 +109,16 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
                 snackbar.setAction("Thêm", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        index = String.valueOf(view.getTag());
+                        String index = String.valueOf(position);
                         String stock_name = marketStock.getStock_name();
-                        Intent intent = new Intent("hnx_adapter");
-                        intent.putExtra("stockname", stock_name);
-                        intent.putExtra("index", index);
-                        intent.putExtra("id_san", "UPCOM");
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        FavoriteHelper db = new FavoriteHelper(context);
+                        FavoriteData favoriteData = new FavoriteData(stock_name, index, "HNX");
+                        if (db.dataExist(stock_name)) {
+                            Toast.makeText(view.getContext(), "Đã tồn tại trong danh sách ưa thích", Toast.LENGTH_SHORT).show();
+                        } else {
+                            db.addFavoriteData(favoriteData);
+                        }
+
                     }
                 });
                 snackbar.show();
@@ -122,12 +132,11 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
         return marketStockList.size();
     }
 
-    public RATESTATUS check_rate(float rate){
+    public RATESTATUS check_rate(float rate) {
         //rate tăng thì trả về true
-        if(rate > 0) {
+        if (rate > 0) {
             return RATESTATUS.UP;
-        }
-        else if (rate < 0) {
+        } else if (rate < 0) {
             return RATESTATUS.DOWN;
         }
         return RATESTATUS.NOTCHANGED;

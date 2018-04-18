@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
         img_search = (ImageView) findViewById(R.id.img_search);
 
         //receive data from adapter
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHNX, new IntentFilter("hnx_adapter"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHOSE, new IntentFilter("hose_adapter"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverUPCOM, new IntentFilter("upcom_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("hnx_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("hose_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("upcom_adapter"));
 
         //set Market Fragment as default screen
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -124,27 +124,7 @@ public class MainActivity extends AppCompatActivity {
         reloadDataPerSpecifiedTime(TIMEFORRELOADING);
     }
 
-    public BroadcastReceiver mMessageReceiverHNX = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            stock_name_data = intent.getStringExtra("stockname");
-            stock_index_data = intent.getStringExtra("index");
-            id_data = intent.getStringExtra("id_san");
-        }
-    };
-
-    public BroadcastReceiver mMessageReceiverHOSE = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            stock_name_data = intent.getStringExtra("stockname");
-            stock_index_data = intent.getStringExtra("index");
-            id_data = intent.getStringExtra("id_san");
-        }
-    };
-
-    public BroadcastReceiver mMessageReceiverUPCOM = new BroadcastReceiver() {
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
