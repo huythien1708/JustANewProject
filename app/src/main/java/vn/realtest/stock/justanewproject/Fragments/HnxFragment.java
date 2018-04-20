@@ -40,18 +40,9 @@ public class HnxFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_hnx, container, false);
         marketStockList = new ArrayList<>();
-        rv_hnx = (RecyclerView) view.findViewById(R.id.rv_hnx);
         mAdapter = new HnxAdapter(marketStockList, getContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rv_hnx.setLayoutManager(mLayoutManager);
-        rv_hnx.setAdapter(mAdapter);
 
         parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
         mAdapter.notifyDataSetChanged();
@@ -59,11 +50,22 @@ public class HnxFragment extends Fragment {
         StockStorage.AddOnDataLoadedListener(stockType, new OnDataLoadedListener() {
             @Override
             public void OnStockDataParsed() {
-                Log.d("test", "onGlobalDataChanged");
                 parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_hnx, container, false);
+        rv_hnx = (RecyclerView) view.findViewById(R.id.rv_hnx);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        rv_hnx.setLayoutManager(mLayoutManager);
+        rv_hnx.setAdapter(mAdapter);
+
         return view;
     }
 
