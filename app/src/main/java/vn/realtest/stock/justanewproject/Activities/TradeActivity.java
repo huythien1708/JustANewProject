@@ -80,9 +80,6 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         setTextColor();
         minusPlusFunction();
         editTextFunction();
-//        stock_index_data = MainActivity.stock_index_data;
-//        stock_name_data = MainActivity.stock_name_data;
-//        id_data = MainActivity.id_data;
         Bundle bundle = getIntent().getExtras();
         stock_index_data = bundle.getString("index");
         stock_name_data = bundle.getString("stockname");

@@ -116,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
             }
         });
 
