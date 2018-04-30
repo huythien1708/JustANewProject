@@ -8,19 +8,27 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import vn.realtest.stock.justanewproject.Activities.MainActivity;
 import vn.realtest.stock.justanewproject.Adapter.SearchAdapter;
 import vn.realtest.stock.justanewproject.Data.SearchData;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.RxImplementation.RxSearchObservable;
 
 /**
  * Created by Paul on 4/23/2018.
@@ -65,23 +73,29 @@ public class FragmentSearch extends Fragment {
             }
         });
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if(!s.isEmpty())
-                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
+        RxSearchObservable.fromView(searchView)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String text) throws Exception {
+                        if (text.isEmpty()) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                })
+                .distinctUntilChanged()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String result) throws Exception {
+                        Log.d("debounced", result);
+                    }
+                });
 
         setData();
-//        mAdapter.notifyDataSetChanged();
         return view;
     }
 
