@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,11 +24,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 import vn.realtest.stock.justanewproject.Activities.MainActivity;
 import vn.realtest.stock.justanewproject.Adapter.SearchAdapter;
 import vn.realtest.stock.justanewproject.Data.SearchData;
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.GlobalData;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Utils.RxImplementation.RxSearchObservable;
 
 /**
@@ -40,8 +44,7 @@ public class FragmentSearch extends Fragment {
     private RecyclerView rv_search;
     private TextView tv_search_result;
     private SearchAdapter mAdapter;
-    private List<SearchData> searchDataList = new ArrayList<SearchData>();
-
+    private ArrayList<SearchData> searchDataList = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,22 +94,30 @@ public class FragmentSearch extends Fragment {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String result) throws Exception {
-                        Log.d("debounced", result);
+                        showSearchedData(result, searchDataList);
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
 
-        setData();
         return view;
     }
 
-    private void setData() {
-        SearchData searchData = new SearchData("PVD", "31", "32");
-        searchDataList.add(searchData);
-
-        searchData = new SearchData("PVD", "31", "-32");
-        searchDataList.add(searchData);
-
-        searchData = new SearchData("PVD", "31", "0");
-        searchDataList.add(searchData);
+    private void showSearchedData(String stockID, ArrayList<SearchData> showedSearchList) {
+        showedSearchList.clear();
+        showedSearchList.addAll(searchStock(stockID, StockStorage.getGlobalStockDataByType(StockType.HNX)));
+        showedSearchList.addAll(searchStock(stockID, StockStorage.getGlobalStockDataByType(StockType.HOSE)));
+        showedSearchList.addAll(searchStock(stockID, StockStorage.getGlobalStockDataByType(StockType.UPCOM)));
     }
+
+    private ArrayList<SearchData> searchStock(String keyword, ArrayList<Stock> data) {
+        keyword = keyword.toUpperCase();
+        ArrayList<SearchData> results = new ArrayList<>();
+        for(Stock stock : data) {
+            if (stock.getID().contains(keyword)) {
+                results.add(new SearchData(stock.getID(), stock.getPriceMatched(), stock.getOffsetMatched()));
+            }
+        }
+        return results;
+    }
+
 }

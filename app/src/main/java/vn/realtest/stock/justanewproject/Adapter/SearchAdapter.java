@@ -66,7 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.stock_rate.setText(String.valueOf(searchData.getStock_rate()));
 
 
-        switch (check_rate(Float.parseFloat(searchData.getStock_rate()))) {
+        switch (check_rate(searchData.getStock_rate())) {
             case UP:
                 holder.stock_rate.setBackgroundColor(increase_value); break;
             case DOWN:
