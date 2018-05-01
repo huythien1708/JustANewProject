@@ -32,11 +32,6 @@
     <string name="open_orders">Lệnh chờ khớp</string>
     <string name="history_trade">Lịch sử giao dịch</string>
 
-    <string-array name="buy_sell">
-        <item>Mua</item>
-        <item>Bán</item>
-    </string-array>
-
     <!--//TEST-->
     <string name="action_settings">Settings</string>
 

@@ -17,6 +17,9 @@
     <color name="text_color">#fff</color>
     <color name="decrease_value">#F71976</color>
     <color name="increase_value">#3ED646</color>
+    <color name="ceil_value">#c011c0</color>
+    <color name="floor_value">#03bbbb</color>
+    <color name="ref_value">#d4b001</color>
 
     <color name="trade_edittext">#502E394E</color>
 

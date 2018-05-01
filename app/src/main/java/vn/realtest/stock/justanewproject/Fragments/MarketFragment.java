@@ -21,7 +21,6 @@ import vn.realtest.stock.justanewproject.R;
 
 public class MarketFragment extends Fragment {
     Context mContext;
-    String index_data;
 
     @SuppressLint({"NewApi", "ResourceType"})
     @Nullable
@@ -55,7 +54,6 @@ public class MarketFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                index_data = String.valueOf(position);
                 if (position == 0) {
                     pager.getAdapter().notifyDataSetChanged();
                 }

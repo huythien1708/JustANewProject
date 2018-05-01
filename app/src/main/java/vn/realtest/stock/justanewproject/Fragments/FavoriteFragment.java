@@ -63,6 +63,7 @@ public class FavoriteFragment extends Fragment {
         stock_name_data = activity.getStockName();
         stock_index_data = activity.getStockIndex();
         id_data = activity.getIdData();
+
         if (!(stock_name_data.isEmpty() && stock_index_data.isEmpty())) {
             MarketStock marketStock = new MarketStock(stock_name_data, (float)31.5, (float)-1.36, 3000);
             marketStockList.add(marketStock);
