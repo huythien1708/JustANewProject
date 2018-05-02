@@ -86,8 +86,11 @@ public class SellFragment extends Fragment {
 
         receiveData();
 
-        getData();
-        setTextColor();
+        if(type!=null) {
+            getData();
+            setTextColor();
+        }
+        
         StockStorage.AddOnDataLoadedListener(type, new OnDataLoadedListener() {
             @Override
             public void OnStockDataParsed() {

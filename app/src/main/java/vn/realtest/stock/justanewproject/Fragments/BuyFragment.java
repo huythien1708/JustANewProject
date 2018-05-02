@@ -87,8 +87,11 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
         });
         receiveData();
 
-        getData();
-        setTextColor();
+        if(type!=null) {
+            getData();
+            setTextColor();
+        }
+
         StockStorage.AddOnDataLoadedListener(type, new OnDataLoadedListener() {
             @Override
             public void OnStockDataParsed() {
