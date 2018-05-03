@@ -85,11 +85,10 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         setTextColor();
         minusPlusFunction();
         editTextFunction();
-
         receiveData();
     }
 
-    private void receiveData() {
+    private void receiveData() {  
         Bundle bundle = getIntent().getExtras();
         stock_index_data = getStockIndexFromString(bundle.getString("index"));
         stock_name_data = bundle.getString("stockname");
