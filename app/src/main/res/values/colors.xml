@@ -9,7 +9,7 @@
     <color name="tab_enable">#fff</color>
     <color name="tab_disable">#fff</color>
 
-    <!--//Page View-->
+    <!--Page View-->
     <color name="pager_view_background">#222B3D</color>
     <color name="pager_view_text">#fff</color>
     <color name="pager_view_tabindicator">#fff</color>
@@ -19,4 +19,13 @@
     <color name="increase_value">#3ED646</color>
 
     <color name="trade_edittext">#502E394E</color>
+
+    <!-- dots inactive colors -->
+    <color name="pager_dark_screen">#AACCFF</color>
+
+    <!-- dots active colors -->
+    <color name="pager_light_screen">#fff</color>
+
+    <!-- Screens background color-->
+    <color name="bg_screen">#222233</color>
 </resources>

@@ -40,18 +40,9 @@ public class UpcomFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_upcom, container, false);
         marketStockList = new ArrayList<>();
-        rv_upcom = (RecyclerView) view.findViewById(R.id.rv_upcom);
         mAdapter = new UpcomAdapter(marketStockList, getContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        rv_upcom.setLayoutManager(mLayoutManager);
-        rv_upcom.setAdapter(mAdapter);
 
         parseStockData(marketStockList, StockStorage.getGlobalStockDataByType(stockType));
         mAdapter.notifyDataSetChanged();
@@ -63,6 +54,17 @@ public class UpcomFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_upcom, container, false);
+        rv_upcom = (RecyclerView) view.findViewById(R.id.rv_upcom);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        rv_upcom.setLayoutManager(mLayoutManager);
+        rv_upcom.setAdapter(mAdapter);
 
         return view;
     }

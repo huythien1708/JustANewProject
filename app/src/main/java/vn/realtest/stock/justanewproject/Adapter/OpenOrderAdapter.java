@@ -54,9 +54,9 @@ public class OpenOrderAdapter extends RecyclerView.Adapter<OpenOrderAdapter.Open
         openOrderViewHolder.stock_amount.setText(openOrder.getStock_amount());
         openOrderViewHolder.buy_sell.setText(openOrder.getBuy_sell());
         openOrderViewHolder.stock_value.setText(openOrder.getStock_value());
-        if(openOrderViewHolder.buy_sell.getText().toString().equals("Mua")){
+        if (openOrderViewHolder.buy_sell.getText().toString().equals("Mua")) {
             openOrderViewHolder.buy_sell.setBackgroundColor(increase_value);
-        } else if (openOrderViewHolder.buy_sell.getText().toString().equals("Bán")){
+        } else if (openOrderViewHolder.buy_sell.getText().toString().equals("Bán")) {
             openOrderViewHolder.buy_sell.setBackgroundColor(decrease_value);
         }
     }

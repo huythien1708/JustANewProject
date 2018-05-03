@@ -26,6 +26,7 @@ import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
+import vn.realtest.stock.justanewproject.GuideForNewbie.GuideActivity;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
 import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
@@ -37,7 +38,7 @@ import vn.realtest.stock.justanewproject.Utils.UrlEndpoints;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTitleTv;
-    private ImageView img_search;
+    private ImageView img_search, img_settings;
     public static String stock_name_data = "", stock_index_data = "", id_data = "";
 
     private static final long TIMEFORRELOADING = 15 * 1000; // 1 minute
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
         img_search = (ImageView) findViewById(R.id.img_search);
+        img_settings = (ImageView) findViewById(R.id.img_settings);
 
         //receive data from adapter
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("hnx_adapter"));
@@ -116,7 +118,16 @@ public class MainActivity extends AppCompatActivity {
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Search", Toast.LENGTH_SHORT).show();
+               Toast.makeText(getApplicationContext(),"SEARCH",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        img_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+                startActivity(intent);
+
             }
         });
 
