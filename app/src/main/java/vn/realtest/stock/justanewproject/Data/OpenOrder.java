@@ -3,12 +3,21 @@ package vn.realtest.stock.justanewproject.Data;
 /**
  * Created by Paul on 3/25/2018.
  */
-
+//Chứa thông tin của OpenOrder Fragment
 public class OpenOrder {
+    long id;
     String buy_sell;
     String stock_name;
     String stock_amount;
     String stock_value;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getBuy_sell() {
         return buy_sell;

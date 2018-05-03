@@ -56,6 +56,13 @@ public class TradeActivity extends AppCompatActivity {
     private String data_passed;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(TradeActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade);
@@ -76,10 +83,14 @@ public class TradeActivity extends AppCompatActivity {
         init();
         increase_value = ContextCompat.getColor(getApplicationContext(), R.color.increase_value);
         decrease_value = ContextCompat.getColor(getApplicationContext(), R.color.decrease_value);
+
         ceil_value = ContextCompat.getColor(getApplicationContext(), R.color.ceil_value);
         floor_value = ContextCompat.getColor(getApplicationContext(), R.color.floor_value);
         reference_value = ContextCompat.getColor(getApplicationContext(), R.color.ref_value);
-
+       
+        setTextColor();
+        minusPlusFunction();
+        editTextFunction();
         receiveData();
         ref = Double.parseDouble(ref_price.getText().toString());
 
@@ -152,7 +163,7 @@ public class TradeActivity extends AppCompatActivity {
 
     }
 
-    private void receiveData() {
+    private void receiveData() {  
         Bundle bundle = getIntent().getExtras();
         stock_index_data = getStockIndexFromString(bundle.getString("index"));
         stock_name_data = bundle.getString("stockname");

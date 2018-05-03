@@ -3,14 +3,24 @@ package vn.realtest.stock.justanewproject.Data;
 /**
  * Created by Paul on 3/25/2018.
  */
+//Chứa thông tin của History Fragment
 
 public class History {
+    long id;
     String stock_name;
     String buy_sell;
     String stock_amount;
     String matched_amount;
     String matched_value;
     String time_matched;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getStock_name() {
         return stock_name;

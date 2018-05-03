@@ -15,13 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import vn.realtest.stock.justanewproject.Activities.TradeActivity;
+import vn.realtest.stock.justanewproject.Data.FavoriteData;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
 import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Databases.FavoriteHelper;
 import vn.realtest.stock.justanewproject.R;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 
@@ -43,7 +46,7 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
         UP, DOWN, NOTCHANGED
     }
 
-    public static class MarketStockViewHolder extends RecyclerView.ViewHolder {
+    public class MarketStockViewHolder extends RecyclerView.ViewHolder {
         CardView cv_market;
         TextView stock_name, stock_value, stock_change, stock_vol;
 
@@ -143,13 +146,16 @@ public class UpcomAdapter extends RecyclerView.Adapter<UpcomAdapter.MarketStockV
                 snackbar.setAction("Thêm", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        index = String.valueOf(view.getTag());
+                        String index = String.valueOf(position);
                         String stock_name = marketStock.getStock_name();
-                        Intent intent = new Intent("upcom_adapter");
-                        intent.putExtra("stockname", stock_name);
-                        intent.putExtra("index", index);
-                        intent.putExtra("id_san", "UPCOM");
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        FavoriteHelper db = new FavoriteHelper(context);
+                        FavoriteData favoriteData = new FavoriteData(stock_name, index, "UPCOM");
+                        if (db.dataExist(stock_name)) {
+                            Toast.makeText(view.getContext(), "Đã tồn tại trong danh sách ưa thích", Toast.LENGTH_SHORT).show();
+                        } else {
+                            db.addFavoriteData(favoriteData);
+                        }
+
                     }
                 });
                 snackbar.show();

@@ -22,7 +22,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+
 import vn.realtest.stock.justanewproject.Fragments.BuyFragment;
+import vn.realtest.stock.justanewproject.Fragments.FragmentSearch;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Action bar
-        ActionBar mActionBar = getSupportActionBar();
+        final ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //disable shift mode by bottomnavigationviewhelper
         BottomNavigationViewHelper.disableShiftMode(navigation);
@@ -108,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         img_settings = (ImageView) findViewById(R.id.img_settings);
 
         //receive data from adapter
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHNX, new IntentFilter("hnx_adapter"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverHOSE, new IntentFilter("hose_adapter"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverUPCOM, new IntentFilter("upcom_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("hnx_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("hose_adapter"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("upcom_adapter"));
 
         //set Market Fragment as default screen or call correspond Fragment when receive data from TradeActivity
         data_receive = getIntent().getStringExtra("TRADE_ID");
@@ -161,7 +163,12 @@ public class MainActivity extends AppCompatActivity {
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Toast.makeText(getApplicationContext(),"SEARCH",Toast.LENGTH_SHORT).show();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                FragmentSearch search = new FragmentSearch();
+                transaction.replace(R.id.content, search);
+                transaction.commit();
+                navigation.setVisibility(View.GONE);
+                mActionBar.hide();          
             }
         });
 
@@ -175,29 +182,8 @@ public class MainActivity extends AppCompatActivity {
 
         reloadDataPerSpecifiedTime(TIMEFORRELOADING);
     }
-    //pass data from MainActivity ( 3 Fragment HNX, HOSE, UPCOM) to FAVORITE fragment and make it change immediately
-    //so this is the reason why 3 variable stock_index_data, stock_name_data, id_data are set to static.
-    public BroadcastReceiver mMessageReceiverHNX = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            stock_name_data = intent.getStringExtra("stockname");
-            stock_index_data = intent.getStringExtra("index");
-            id_data = intent.getStringExtra("id_san");
-        }
-    };
 
-    public BroadcastReceiver mMessageReceiverHOSE = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            stock_name_data = intent.getStringExtra("stockname");
-            stock_index_data = intent.getStringExtra("index");
-            id_data = intent.getStringExtra("id_san");
-        }
-    };
-
-    public BroadcastReceiver mMessageReceiverUPCOM = new BroadcastReceiver() {
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent

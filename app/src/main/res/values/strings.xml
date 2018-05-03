@@ -31,6 +31,8 @@
     <string name="history">Lịch sử</string>
     <string name="open_orders">Lệnh chờ khớp</string>
     <string name="history_trade">Lịch sử giao dịch</string>
+    <string name="search_hint">Nhập tên mã cần cổ phiếu cần tìm</string>
+    <string name="search_result">Kết quả: </string>
 
     <!--//TEST-->
     <string name="action_settings">Settings</string>
