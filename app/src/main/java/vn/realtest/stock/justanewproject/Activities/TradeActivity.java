@@ -58,6 +58,13 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     private ImageView img_search;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(TradeActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_trade);
