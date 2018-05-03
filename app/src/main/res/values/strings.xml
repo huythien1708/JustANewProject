@@ -34,11 +34,6 @@
     <string name="search_hint">Nhập tên mã cần cổ phiếu cần tìm</string>
     <string name="search_result">Kết quả: </string>
 
-    <string-array name="buy_sell">
-        <item>Mua</item>
-        <item>Bán</item>
-    </string-array>
-
     <!--//TEST-->
     <string name="action_settings">Settings</string>
 

@@ -14,13 +14,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.realtest.stock.justanewproject.Activities.TradeActivity;
 import vn.realtest.stock.justanewproject.Data.FavoriteData;
 import vn.realtest.stock.justanewproject.Data.MarketStock;
+import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Databases.FavoriteHelper;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
+
+import static vn.realtest.stock.justanewproject.Models.StockType.HNX;
+import static vn.realtest.stock.justanewproject.Models.StockType.HOSE;
 
 /**
  * Created by Paul on 3/13/2018.
@@ -28,9 +34,10 @@ import vn.realtest.stock.justanewproject.R;
 
 public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockViewHolder> {
     List<MarketStock> marketStockList;
-    int increase_value, decrease_value;
+    int increase_value, decrease_value, ref_value, floor_value, ceil_value;
     Context context;
     String index;
+    float floor, ceil;
 
     private enum RATESTATUS {
         UP, DOWN, NOTCHANGED
@@ -61,6 +68,9 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.market_stock_item, viewGroup, false);
         increase_value = ContextCompat.getColor(v.getContext(), R.color.increase_value);
         decrease_value = ContextCompat.getColor(v.getContext(), R.color.decrease_value);
+        ref_value = ContextCompat.getColor(v.getContext(), R.color.ref_value);
+        floor_value = ContextCompat.getColor(v.getContext(), R.color.floor_value);
+        ceil_value = ContextCompat.getColor(v.getContext(), R.color.ceil_value);
         return new MarketStockViewHolder(v);
     }
 
@@ -73,16 +83,45 @@ public class HoseAdapter extends RecyclerView.Adapter<HoseAdapter.MarketStockVie
         holder.stock_change.setText(String.valueOf(marketStock.getStock_change_rate()));
         holder.stock_vol.setText(String.valueOf(marketStock.getStock_vol()));
 
+        ArrayList<Stock> data = StockStorage.getGlobalStockDataByType(HOSE);
+        if (data != null && data.size() > 0) {
+            Stock stock = data.get(position);
+            floor = stock.getFloor();
+            ceil = stock.getCeil();
+        }
+
         switch (check_rate(marketStock.getStock_change_rate())) {
             case UP:
-                holder.stock_change.setBackgroundColor(increase_value);
+                if(marketStock.getStock_value() == ceil){
+                    holder.stock_change.setTextColor(ceil_value);
+                    holder.stock_name.setTextColor(ceil_value);
+                    holder.stock_value.setTextColor(ceil_value);
+                } else {
+                    holder.stock_change.setTextColor(increase_value);
+                    holder.stock_name.setTextColor(increase_value);
+                    holder.stock_value.setTextColor(increase_value);
+                }
+
                 break;
             case DOWN:
-                holder.stock_change.setBackgroundColor(decrease_value);
+                if(marketStock.getStock_value() == floor){
+                    holder.stock_change.setTextColor(floor_value);
+                    holder.stock_name.setTextColor(floor_value);
+                    holder.stock_value.setTextColor(floor_value);
+                } else {
+                    holder.stock_name.setTextColor(decrease_value);
+                    holder.stock_value.setTextColor(decrease_value);
+                    holder.stock_change.setTextColor(decrease_value);
+                }
+
                 break;
             case NOTCHANGED:
+                holder.stock_change.setTextColor(ref_value);
+                holder.stock_name.setTextColor(ref_value);
+                holder.stock_value.setTextColor(ref_value);
                 break;
         }
+
         holder.cv_market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -22,10 +22,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+
+import vn.realtest.stock.justanewproject.Fragments.BuyFragment;
 import vn.realtest.stock.justanewproject.Fragments.FragmentSearch;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
+import vn.realtest.stock.justanewproject.Fragments.SellFragment;
 import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.GuideForNewbie.GuideActivity;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public static String stock_name_data = "", stock_index_data = "", id_data = "";
 
     private static final long TIMEFORRELOADING = 15 * 1000; // 1 minute
+    private String data_receive, stock_name_receive, stock_index_receive, id_san_receive;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -110,12 +114,52 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("hose_adapter"));
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("upcom_adapter"));
 
-        //set Market Fragment as default screen
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        MarketFragment market = new MarketFragment();
-        transaction.replace(R.id.content, market);
-        transaction.commit();
+        //set Market Fragment as default screen or call correspond Fragment when receive data from TradeActivity
+        data_receive = getIntent().getStringExtra("TRADE_ID");
+        stock_name_receive = getIntent().getStringExtra("stock_name");
+        stock_index_receive = getIntent().getStringExtra("stock_index");
+        id_san_receive = getIntent().getStringExtra("id_san");
 
+        if(data_receive != null && stock_name_receive != null && stock_index_receive != null && id_san_receive != null){
+            if(data_receive.equals("buy")){
+                mTitleTv.setText(stock_name_receive);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("stock_name", stock_name_receive);
+                bundle.putString("stock_index", stock_index_receive);
+                bundle.putString("id_san", id_san_receive);
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                BuyFragment buyFragment = new BuyFragment();
+                buyFragment.setArguments(bundle);
+
+                transaction.replace(R.id.content, buyFragment);
+                transaction.commit();
+
+            } else {
+                mTitleTv.setText(stock_name_receive);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("stock_name", stock_name_receive);
+                bundle.putString("stock_index", stock_index_receive);
+                bundle.putString("id_san", id_san_receive);
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                SellFragment sellFragment = new SellFragment();
+                sellFragment.setArguments(bundle);
+
+                transaction.replace(R.id.content, sellFragment);
+                transaction.commit();
+            }
+        } else {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            MarketFragment market = new MarketFragment();
+            transaction.replace(R.id.content, market);
+            transaction.commit();
+        }
+
+
+        //set ImageView on click
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
             id_data = intent.getStringExtra("id_san");
         }
     };
-
+    //make 3 functions for FavoriteFragment
     public String getStockName() {
         return stock_name_data;
     }
