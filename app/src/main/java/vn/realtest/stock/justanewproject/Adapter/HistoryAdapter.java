@@ -59,9 +59,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         historyViewHolder.stock_value.setText(history.getMatched_value());
         historyViewHolder.matched_stock_amount.setText(history.getMatched_amount());
         historyViewHolder.matched_date.setText(history.getTime_matched());
-        if(historyViewHolder.buy_sell.getText().toString().equals("Mua")){
+        if (historyViewHolder.buy_sell.getText().toString().equals("Mua")) {
             historyViewHolder.buy_sell.setBackgroundColor(increase_value);
-        } else if (historyViewHolder.buy_sell.getText().toString().equals("Bán")){
+        } else if (historyViewHolder.buy_sell.getText().toString().equals("Bán")) {
             historyViewHolder.buy_sell.setBackgroundColor(decrease_value);
         }
     }

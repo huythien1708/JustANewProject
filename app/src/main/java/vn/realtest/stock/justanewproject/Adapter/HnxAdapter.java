@@ -139,6 +139,7 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
         } else if (rate < 0) {
             return RATESTATUS.DOWN;
         }
+
         return RATESTATUS.NOTCHANGED;
     }
 

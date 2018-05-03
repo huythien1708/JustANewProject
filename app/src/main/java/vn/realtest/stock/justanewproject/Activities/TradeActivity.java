@@ -25,8 +25,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
+import vn.realtest.stock.justanewproject.Models.Stock;
+import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
+import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 
 /**
  * Created by Admin on 1/20/2018.
@@ -48,7 +52,9 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     private int increase_value, decrease_value;
     private DecimalFormat df;
     private String dx;
-    private String stock_name_data = "", stock_index_data = "", id_data = "";
+    private String stock_name_data = "";
+    private int stock_index_data;
+    private StockType id_data;
     private ImageView img_search;
 
     @Override
@@ -62,7 +68,6 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_trade);
-
 
         ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
@@ -87,18 +92,57 @@ public class TradeActivity extends AppCompatActivity implements AdapterView.OnIt
         setTextColor();
         minusPlusFunction();
         editTextFunction();
-//        stock_index_data = MainActivity.stock_index_data;
-//        stock_name_data = MainActivity.stock_name_data;
-//        id_data = MainActivity.id_data;
-        Bundle bundle = getIntent().getExtras();
-        stock_index_data = bundle.getString("index");
-        stock_name_data = bundle.getString("stockname");
-        id_data = bundle.getString("id_san");
-        stock_name.setText(stock_name_data);
-        Log.d("abcxyz", "Trade, stock_name: "+ stock_name_data +" stock_index: "+stock_index_data+" id_san: "+id_data);
+        receiveData();
     }
 
+    private void receiveData() {  
+        Bundle bundle = getIntent().getExtras();
+        stock_index_data = getStockIndexFromString(bundle.getString("index"));
+        stock_name_data = bundle.getString("stockname");
+        id_data = getStockTypeFromIdData(bundle.getString("id_san"));
+        stock_name.setText(stock_name_data);
 
+        getData();
+    }
+
+    private void getData() {
+        if (id_data != null) {
+            ArrayList<Stock> data = StockStorage.getGlobalStockDataByType(id_data);
+            if (data != null && data.size() > 0) {
+                Stock stock = data.get(stock_index_data);
+                stock_name.setText(stock.getID());
+                buy_price_1.setText(String.valueOf(stock.getPriceAsk1()));
+                buy_price_2.setText(String.valueOf(stock.getPriceAsk2()));
+                buy_price_3.setText(String.valueOf(stock.getPriceAsk3()));
+                buy_amount_1.setText(String.valueOf(stock.getVolumeAsk1()));
+                buy_amount_2.setText(String.valueOf(stock.getVolumeAsk2()));
+                buy_amount_3.setText(String.valueOf(stock.getVolumeAsk3()));
+                sell_price_1.setText(String.valueOf(stock.getPriceBid1()));
+                sell_price_2.setText(String.valueOf(stock.getPriceBid2()));
+                sell_price_3.setText(String.valueOf(stock.getPriceBid3()));
+                sell_amount_1.setText(String.valueOf(stock.getVolumeBid1()));
+                sell_amount_2.setText(String.valueOf(stock.getVolumeBid2()));
+                sell_amount_3.setText(String.valueOf(stock.getVolumeBid3()));
+            }
+        }
+    }
+
+    private StockType getStockTypeFromIdData(String idData) {
+        switch (idData) {
+            case "HNX": return StockType.HNX;
+            case "HOSE": return StockType.HOSE;
+            case "UPCOM": return StockType.UPCOM;
+            default: return StockType.HNX;
+        }
+    }
+
+    private int getStockIndexFromString(String stockIndexData) {
+        try {
+            return Integer.parseInt(stockIndexData);
+        } catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
 
     private void editTextFunction() {
         trade_value.addTextChangedListener(new TextWatcher() {
