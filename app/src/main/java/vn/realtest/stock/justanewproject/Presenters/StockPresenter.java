@@ -61,6 +61,7 @@ public abstract class StockPresenter extends DataFetchingBackgroundJob{
                     stock.setHighPrices(parseFloat(columnValues.get(25)));
                     stock.setAveragePrices(parseFloat(columnValues.get(23)));
                     stock.setLowPrices(parseFloat(columnValues.get(26)));
+                    stock.setOpenPrices(parseFloat(columnValues.get(24)));
 
                     //                    stock.setBidRemain();
                     //                    stock.setAskRemain();

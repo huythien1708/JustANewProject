@@ -89,8 +89,6 @@ public class TradeActivity extends AppCompatActivity {
         reference_value = ContextCompat.getColor(getApplicationContext(), R.color.ref_value);
        
         setTextColor();
-        minusPlusFunction();
-        editTextFunction();
         receiveData();
         ref = Double.parseDouble(ref_price.getText().toString());
 
@@ -183,7 +181,7 @@ public class TradeActivity extends AppCompatActivity {
                 ref_price.setText(String.valueOf(stock.getReference()));
                 min_price.setText(String.valueOf(stock.getLowPrices()));
                 max_price.setText(String.valueOf(stock.getHighPrices()));
-                open_price.setText(String.valueOf(stock.getReference()));
+                open_price.setText(String.valueOf(stock.getOpenPrices()));
 
                 rate_change = stock.getOffsetMatched() / stock.getReference() * 100;
                 df = new DecimalFormat("#.##");
