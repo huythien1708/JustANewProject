@@ -29,6 +29,7 @@
     <string name="amount_3">Khối lượng 3</string>
     <string name="transtraction">Giao dịch</string>
     <string name="history">Lịch sử</string>
+    <string name="settings">Cài đặt</string>
     <string name="open_orders">Lệnh chờ khớp</string>
     <string name="history_trade">Lịch sử giao dịch</string>
     <string name="search_hint">Nhập tên mã cần cổ phiếu cần tìm</string>
@@ -36,6 +37,7 @@
 
     <!--//TEST-->
     <string name="action_settings">Settings</string>
+
 
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">NEXT</string>

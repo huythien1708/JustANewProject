@@ -81,7 +81,6 @@ public class GuideActivity extends AppCompatActivity {
                 // checking for last page
                 // if last page home screen will be launched
                 int current = getItem(-1);
-                Log.d("abcxyz", "Current back: " + current);
                 if (current < layouts.length) {
                     // move to next screen
                     viewPager.setCurrentItem(current);

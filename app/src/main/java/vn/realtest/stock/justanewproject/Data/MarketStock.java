@@ -3,7 +3,7 @@ package vn.realtest.stock.justanewproject.Data;
 /**
  * Created by Paul on 3/13/2018.
  */
-//Chứa thông tin của HNX. HOSE, UPCOM Fragment
+//Chứa thông tin của HNX, HOSE, UPCOM Fragment
 public class MarketStock {
     String stock_name;
     float stock_value;

@@ -31,6 +31,7 @@ public class MarketFragment extends Fragment {
         final ViewPager pager = (ViewPager) rootView.findViewById(R.id.pager);
         pager.setAdapter(new ViewPagerAdapterMarket(getChildFragmentManager(), mContext));
         pager.addOnPageChangeListener(new PageListener());
+
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -45,7 +46,7 @@ public class MarketFragment extends Fragment {
             tabLayout.setTabTextColors(Color.parseColor(getResources().getString(R.color.pager_view_text)), Color.parseColor(getResources().getString(R.color.pager_view_text)));
         }
 
-        //update data when Fragment receive data from activity
+        //update data when FavoriteFragment change
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -64,7 +65,6 @@ public class MarketFragment extends Fragment {
 
             }
         });
-
         return rootView;
     }
 
@@ -74,6 +74,7 @@ public class MarketFragment extends Fragment {
         @Override
         public void onPageSelected(int position) {
             _CurrentPage = position;
+
         }
     }
 }

@@ -1,30 +1,21 @@
 package vn.realtest.stock.justanewproject.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import vn.realtest.stock.justanewproject.Models.Company;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Models.StockType;
 import vn.realtest.stock.justanewproject.R;
@@ -54,12 +45,11 @@ public class TradeActivity extends AppCompatActivity {
     private DecimalFormat df;
     private Button btn_buy, btn_sell;
     private String data_passed;
+    private ImageView img_back;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(TradeActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -67,13 +57,13 @@ public class TradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade);
 
-        ActionBar mActionBar = getSupportActionBar();
+        final ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
 
-        View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        View mCustomView = mInflater.inflate(R.layout.custom_actionbar_trade, null);
         mTitleTv = (TextView) mCustomView.findViewById(R.id.title_text);
 //        mTitleTv.setText(stock_name_data);
 
@@ -89,14 +79,23 @@ public class TradeActivity extends AppCompatActivity {
         reference_value = ContextCompat.getColor(getApplicationContext(), R.color.ref_value);
        
         setTextColor();
-        minusPlusFunction();
-        editTextFunction();
         receiveData();
+        ref = Double.parseDouble(ref_price.getText().toString());
         ref = Double.parseDouble(ref_price.getText().toString());
 
         setTextColor();
 
         btn_function();
+
+        img_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(TradeActivity.this, MainActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void getCompanyName() {
@@ -160,6 +159,8 @@ public class TradeActivity extends AppCompatActivity {
 
         btn_buy = (Button) findViewById(R.id.btn_trade_buy);
         btn_sell = (Button) findViewById(R.id.btn_trade_sell);
+
+        img_back = (ImageView) findViewById(R.id.img_back);
 
     }
 

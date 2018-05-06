@@ -12,19 +12,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 import vn.realtest.stock.justanewproject.Fragments.BuyFragment;
-import vn.realtest.stock.justanewproject.Fragments.FragmentSearch;
+import vn.realtest.stock.justanewproject.Fragments.FavoriteFragment;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
@@ -60,11 +58,6 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.content, market);
                     mTitleTv.setText(R.string.title_market);
                     break;
-                case R.id.navigation_trade:
-                    TradeFragment trade = new TradeFragment();
-                    transaction.replace(R.id.content, trade);
-                    mTitleTv.setText(R.string.title_trade);
-                    break;
                 case R.id.navigation_fund:
                     FundFragment fund = new FundFragment();
                     transaction.replace(R.id.content, fund);
@@ -75,12 +68,21 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.content, statistic);
                     mTitleTv.setText(R.string.title_book);
                     break;
+                case R.id.navigation_settings:
+                    Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+                    startActivity(intent);
+                    break;
             }
             transaction.commit();
             return true;
         }
 
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
-        View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        View mCustomView = mInflater.inflate(R.layout.custom_actionbar_main, null);
         mTitleTv = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTv.setText(R.string.title_market);
 
@@ -163,12 +165,8 @@ public class MainActivity extends AppCompatActivity {
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                FragmentSearch search = new FragmentSearch();
-                transaction.replace(R.id.content, search);
-                transaction.commit();
-                navigation.setVisibility(View.GONE);
-                mActionBar.hide();          
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
             }
         });
 
