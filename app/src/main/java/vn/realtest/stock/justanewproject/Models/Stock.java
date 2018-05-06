@@ -31,6 +31,7 @@ public class Stock {
     private float HighPrices;
     private float AveragePrices;
     private float LowPrices;
+    private float OpenPrices;
     private int BidRemain;
     private int AskRemain;
     private int RoomForeign;
@@ -229,6 +230,14 @@ public class Stock {
 
     public void setLowPrices(float lowPrices) {
         LowPrices = lowPrices;
+    }
+
+    public float getOpenPrices() {
+        return OpenPrices;
+    }
+
+    public void setOpenPrices(float openPrices) {
+        OpenPrices = openPrices;
     }
 
     public int getBidRemain() {
