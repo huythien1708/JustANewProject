@@ -7,18 +7,18 @@
         android:title="@string/title_market" />
 
     <item
-        android:id="@+id/navigation_fund"
-        android:icon="@drawable/fund"
-        android:title="@string/title_fund" />
-
-    <item
         android:id="@+id/navigation_statistic"
         android:icon="@drawable/book"
         android:title="@string/title_book" />
 
     <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/settings_1"
-        android:title="@string/settings" />
+        android:id="@+id/navigation_alert"
+        android:icon="@drawable/alert"
+        android:title="@string/alert" />
+
+    <item
+        android:id="@+id/navigation_fund"
+        android:icon="@drawable/fund"
+        android:title="@string/title_fund" />
 
 </menu>

@@ -87,7 +87,6 @@ public class FavoriteFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         rv_favorite.setLayoutManager(mLayoutManager);
         rv_favorite.setAdapter(mAdapter);
-        updateListView();
         return view;
     }
 

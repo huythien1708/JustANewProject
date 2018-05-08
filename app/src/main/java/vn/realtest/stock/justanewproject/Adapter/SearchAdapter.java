@@ -31,7 +31,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     List<SearchData> searchDataList;
     int increase_value, decrease_value, ref_value;
     Context context;
-    String index;
 
 
     private enum RATESTATUS{
@@ -94,12 +93,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.cv_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                index = String.valueOf(view.getTag());
                 String stock_name = searchData.getStock_name();
+                String index = String.valueOf(searchData.getStock_index());
+                String id_san = searchData.getId_san();
                 Intent intent = new Intent(context, TradeActivity.class);
                 intent.putExtra("stockname", stock_name);
                 intent.putExtra("index", index);
-                intent.putExtra("id_san", "HOSE");
+                intent.putExtra("id_san", id_san);
                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                 context.startActivity(intent);
             }

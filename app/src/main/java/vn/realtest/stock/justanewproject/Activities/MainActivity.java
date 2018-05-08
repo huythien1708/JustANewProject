@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 
 import vn.realtest.stock.justanewproject.Fragments.BuyFragment;
 import vn.realtest.stock.justanewproject.Fragments.FavoriteFragment;
+import vn.realtest.stock.justanewproject.Fragments.FragmentAlert;
 import vn.realtest.stock.justanewproject.Fragments.FundFragment;
 import vn.realtest.stock.justanewproject.Fragments.MarketFragment;
 import vn.realtest.stock.justanewproject.Fragments.OrderBookFragment;
@@ -68,9 +70,12 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.content, statistic);
                     mTitleTv.setText(R.string.title_book);
                     break;
-                case R.id.navigation_settings:
-                    Intent intent = new Intent(MainActivity.this, GuideActivity.class);
-                    startActivity(intent);
+                case R.id.navigation_alert:
+//                    Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+//                    startActivity(intent);
+                    FragmentAlert alert = new FragmentAlert();
+                    transaction.replace(R.id.content, alert);
+                    mTitleTv.setText(R.string.title_alert);
                     break;
             }
             transaction.commit();
