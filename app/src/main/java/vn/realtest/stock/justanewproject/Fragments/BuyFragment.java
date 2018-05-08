@@ -336,8 +336,6 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     private void compareToRef(TextView tv, double value) {
         int result = Double.compare(value, ref);
-        Log.d("hehe", String.valueOf(result));
-        Log.d("hehe", "value: " +value +" ref:" + ref);
         if (result < 0) {
             if (value == floor) {
                 tv.setTextColor(floor_value);

@@ -79,7 +79,6 @@ public class HnxAdapter extends RecyclerView.Adapter<HnxAdapter.MarketStockViewH
     @Override
     public void onBindViewHolder(final MarketStockViewHolder holder, final int position) {
         final MarketStock marketStock = marketStockList.get(position);
-//        holder.cv_market.setTag(position);
         holder.stock_name.setText(marketStock.getStock_name());
         holder.stock_value.setText(String.valueOf(marketStock.getStock_value()));
         holder.stock_change.setText(String.valueOf(marketStock.getStock_change_rate()));

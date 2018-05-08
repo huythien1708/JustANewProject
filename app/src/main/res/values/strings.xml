@@ -4,10 +4,11 @@
     <string name="title_trade">Giao dịch</string>
     <string name="title_fund">Quĩ</string>
     <string name="title_book">Sổ lệnh</string>
-    <string name="tittle_favorite">Yêu thích</string>
-    <string name="tittle_hnx">HNX</string>
-    <string name="tittle_hose">HOSE</string>
-    <string name="tittle_upcom">UPCOM</string>
+    <string name="title_favorite">Yêu thích</string>
+    <string name="title_hnx">HNX</string>
+    <string name="title_hose">HOSE</string>
+    <string name="title_upcom">UPCOM</string>
+    <string name="title_alert">Thông báo</string>
     <string name="total_balance">Tổng tài khoản(VNĐ)</string>
     <string name="holding_stock">Cổ phiếu nắm giữ</string>
     <string name="stock_name">Tên cổ phiếu</string>
@@ -29,13 +30,17 @@
     <string name="amount_3">Khối lượng 3</string>
     <string name="transtraction">Giao dịch</string>
     <string name="history">Lịch sử</string>
+    <string name="alert">Thông báo</string>
     <string name="open_orders">Lệnh chờ khớp</string>
     <string name="history_trade">Lịch sử giao dịch</string>
     <string name="search_hint">Nhập tên mã cần cổ phiếu cần tìm</string>
     <string name="search_result">Kết quả: </string>
+    <string name="note_activity_trade">Giá x 1000VNĐ, Khối lượng x10 cổ phiếu</string>
+    <string name="alert_text">Chức năng này chỉ có trên bản pro ^^~</string>
 
     <!--//TEST-->
     <string name="action_settings">Settings</string>
+
 
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">NEXT</string>
