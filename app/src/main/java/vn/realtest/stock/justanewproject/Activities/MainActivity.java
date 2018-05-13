@@ -12,13 +12,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,6 +31,8 @@ import vn.realtest.stock.justanewproject.Fragments.TradeFragment;
 import vn.realtest.stock.justanewproject.GuideForNewbie.GuideActivity;
 import vn.realtest.stock.justanewproject.Helpers.BottomNavigationViewHelper;
 import vn.realtest.stock.justanewproject.Models.StockType;
+import vn.realtest.stock.justanewproject.Services.StockIntentService;
+import vn.realtest.stock.justanewproject.Services.StockService;
 import vn.realtest.stock.justanewproject.Utils.GlobalStorage.StockStorage;
 import vn.realtest.stock.justanewproject.Models.Stock;
 import vn.realtest.stock.justanewproject.Presenters.StockPresenter;
@@ -180,7 +180,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        reloadDataPerSpecifiedTime(TIMEFORRELOADING);
+//        reloadDataPerSpecifiedTime(TIMEFORRELOADING);
+        Intent stockIntent = new Intent(this, StockService.class);
+        startService(stockIntent);
     }
 
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
